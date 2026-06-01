@@ -3,11 +3,10 @@
 // CRITICAL: every claim here must be TRUE. Per the Notion privacy
 // doc, do NOT overclaim:
 //   • No blanket "end-to-end encrypted" (false the moment AI reads plaintext)
-//   • No blanket "even we can't see your entries" (only true for the Vault)
+//   • No blanket "even we can't see your entries"
 //   • No "military-grade / bank-level" puffery
 // Standard entries: protected, never sold/trained, but we hold the key
 // (so we *could* technically read them — we don't and won't).
-// Private Vault: key only the user holds — we genuinely can't read it; no AI.
 // Honesty is the trust. Tone = sanctuary, confidence, held space.
 // ============================================================
 
@@ -42,13 +41,7 @@ export const privacyPage = {
     body: "For your everyday entries to be reflected on, our system has to be able to read them — so we hold the key. We never look, and we never will. But we won't tell you we <em>can't</em>, because that wouldn't be true, and you'd be right to walk away from anyone who claimed otherwise.",
   },
 
-  // the Private Vault — the one place "even we can't read it" is literally true
-  vault: {
-    title: "The Private Vault",
-    body: "When something is too tender even for that, turn on the Private Vault. It's locked with a key derived from a passphrase only you hold. We can't read it. Neither can the AI — which means Vault entries don't receive reflections. The trade is yours to make, entry by entry.",
-    line: "It's just between you and God.",
-    warning: "Because the key is yours alone, it can't be recovered. Lose the passphrase and the writing is gone — even to us. That's the point.",
-  },
+  line: "It's just between you and God.",
 
-  cta: { label: "Start writing — free", href: "#" },
+  cta: { label: "Start your 14-day trial", href: "#" },
 };

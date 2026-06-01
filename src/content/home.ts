@@ -12,7 +12,7 @@ export const hero = {
     text: "…the Dayspring from on high has visited us",
     ref: "Luke 1:78",
   },
-  primary: { label: "Start writing — free", href: "#" },
+  primary: { label: "Start your 14-day trial", href: "#" },
   ghost: { label: "Why we built this →", href: "/why" },
 };
 
@@ -59,42 +59,87 @@ export const editor = {
 export const lookingBack = {
   tag: "Looking back",
   heading: "Four horizons, <em>one arc.</em>",
-  lead: "Each reflection reads the one beneath it — days into weeks, weeks into months, months into quarters, quarters into years. Your own words, returned in prose. No charts, no streaks, no mood scores.",
-  points: [
+  lead: "Each reflection reads the one beneath it — your own words, returned in prose. Tap a horizon.",
+  horizons: [
     {
-      title: "Week · the Sabbath stop",
-      body: "A tactical pause — what moved this week, three wins carried forward, and a few questions to seed your next entry.",
+      id: "week",
+      label: "Week",
+      character: "The Sabbath stop",
+      title: "What moved this week",
+      paragraphs: [
+        "Measured against last week, not an ideal — you wrote less about bracing and more about showing up. Thursday's conversation with Marcus still lingers.",
+      ],
+      wins: [
+        {
+          heading: "3 wins this week",
+          items: [
+            "Didn't snap at the dinner table.",
+            "Called Dad back.",
+            "Wrote before I checked my phone.",
+          ],
+        },
+        {
+          heading: "3 wins for next week",
+          items: [
+            "Stay present at dinner.",
+            "One honest prayer before bed.",
+            "Return to the Marcus thread.",
+          ],
+        },
+      ],
+      questions: [
+        "What from Thursday is still open?",
+        "Where did patience show up without you noticing?",
+      ],
     },
     {
-      title: "Month · the letter",
-      body: "A letter to yourself in your own words. Arcs, not days. What changed, measured backward against last month.",
+      id: "month",
+      label: "Month",
+      character: "The letter",
+      title: "What changed in you this month",
+      paragraphs: [
+        "You started March bracing for the worst. By the third week, something settled — you wrote less about fear and more about the people in front of you.",
+        "The patience you've been praying for? <em>It showed up in small places</em> — the dinner table, the long call with your brother.",
+      ],
+      signature: "— Dayspring, looking back with you",
     },
     {
-      title: "Quarter · the retreat",
-      body: "The view a retreat is for — recurring themes, long-horizon questions, and Ebenezer stones: prayers you named beside where they stand now.",
+      id: "quarter",
+      label: "Quarter",
+      character: "The retreat",
+      title: "The arc you can't see from inside a week",
+      paragraphs: [
+        "Patience kept returning — not as a resolution, but as a thread you kept circling. Fear quieted, slowly. The same prayer showed up in March and again in June, wearing different clothes.",
+      ],
+      ebenezer: [
+        {
+          before: "Lord, soften my heart toward Marcus.",
+          after: "I went in defensive and left grateful.",
+          when: "March → June",
+        },
+      ],
+      questions: [
+        "What tension keeps returning that you're not yet ready to name?",
+      ],
     },
     {
-      title: "Year · the mirror",
-      body: "Who you were a year ago vs. who you are now. The throughline the whole architecture exists to produce.",
+      id: "year",
+      label: "Year",
+      character: "The mirror",
+      title: "Who you were · who you are",
+      paragraphs: [
+        "A year ago you were measuring yourself against who you thought you should already be. Now you're writing from a different place — less performance, more honesty before God.",
+      ],
+      themes: [
+        "Patience — named in January, landed by autumn.",
+        "Fear — quieter than it was in spring.",
+        "Head to heart — what you know is starting to land.",
+      ],
     },
   ],
-  mock: {
-    horizons: [
-      { label: "Week", character: "The Sabbath stop" },
-      { label: "Month", character: "The letter" },
-      { label: "Quarter", character: "The retreat" },
-      { label: "Year", character: "The mirror" },
-    ],
-    active: "Month",
-    kicker: "Monthly · the letter",
-    title: "What changed in you this month",
-    paragraphs: [
-      "You started March bracing for the worst. By the third week, something settled — you wrote less about fear and more about the people in front of you.",
-      "The patience you've been praying for? <em>It showed up in small places</em> — the dinner table, the long call with your brother.",
-    ],
-    signature: "— Dayspring, looking back with you",
-  },
 };
+
+const monthHorizon = lookingBack.horizons.find((h) => h.id === "month")!;
 
 // kept for /features — same letter content, nested under lookingBack
 export const yearInReview = {
@@ -104,9 +149,9 @@ export const yearInReview = {
   letter: {
     kind: "Monthly reflection",
     period: "March",
-    title: lookingBack.mock.title,
-    paragraphs: lookingBack.mock.paragraphs,
-    signature: lookingBack.mock.signature,
+    title: monthHorizon.title,
+    paragraphs: monthHorizon.paragraphs,
+    signature: monthHorizon.signature ?? "",
   },
 };
 
@@ -147,18 +192,16 @@ export const bringHistory = {
   },
 };
 
-// privacy as stewardship (Section 6) — carries the single unmistakable faith line
+// privacy as stewardship — carries the single unmistakable faith line
 export const privacy = {
   tag: "Privacy as stewardship",
   heading: "Some things are meant to be written <em>before they're ever spoken aloud.</em>",
-  body: "Your entries are encrypted, never sold, and never used to train AI. No one else can reach your journal. And when something is too tender even for that, turn on the Private Vault — locked with a key only you hold. We can't read it. Neither can the AI.",
-  // the one unmistakable line, placed with confidence
+  body: "Your entries are encrypted, never sold, and never used to train AI. No one else can reach your journal.",
   line: "It's just between you and God.",
-  vault: { label: "Private Vault", state: "Locked · key only you hold" },
 };
 
 export const pricing = {
   tag: "Pricing",
-  heading: "Free to begin. <em>Worth more with time.</em>",
-  lead: "The page is free, forever. Looking back — the part that shows you the arc across week, month, quarter, and year — is what you grow into.",
+  heading: "Try it for two weeks. <em>Stay for the mirror.</em>",
+  lead: "One premium plan — the editor and Looking back, every horizon. Start with 14 days free, then $59 a year or $8 a month.",
 };

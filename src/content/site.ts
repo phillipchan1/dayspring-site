@@ -52,23 +52,13 @@ export const footerLinks = [
 // ---- pricing tiers (Annual is featured / "Most chosen") ----
 export const pricingTiers = [
   {
-    name: "Open Page",
-    price: "$0",
-    unit: null,
-    note: "free, forever",
-    desc:
-      "The full editor, focus mode, and your private journal. Write as much as you like — no limits, no nagging.",
-    cta: { label: "Start writing", href: "#", style: "line" },
-    featured: false,
-  },
-  {
     name: "Dayspring Annual",
     price: "$59",
     unit: " / year",
-    note: "about $4.92 / month",
+    note: "14-day free trial · about $4.92 / month",
     desc:
-      "Everything in Open Page, plus the full insight layer — weekly, monthly, and the yearly mirror. The longer you write, the more it gives back.",
-    cta: { label: "Begin the year", href: "#", style: "solid" },
+      "The full product — editor, focus mode, and Looking back across week, month, quarter, and year. The longer you write, the more it gives back.",
+    cta: { label: "Start free trial", href: "#", style: "solid" },
     featured: true,
     badge: "Most chosen",
   },
@@ -76,10 +66,10 @@ export const pricingTiers = [
     name: "Monthly",
     price: "$8",
     unit: " / month",
-    note: "cancel anytime",
+    note: "14-day free trial · cancel anytime",
     desc:
-      "The full insight layer, month to month. A gentle way to try it before you commit to the long walk.",
-    cta: { label: "Start monthly", href: "#", style: "line" },
+      "Same everything, billed month to month. A gentle way to try it before you commit to the long walk.",
+    cta: { label: "Start free trial", href: "#", style: "line" },
     featured: false,
   },
 ] as const;

@@ -22,5 +22,5 @@ export const maker = {
     "Dayspring is that journal. I hope it holds your words as carefully as I've tried to make it hold mine.",
   ],
   signature: "— Phil",
-  cta: { label: "Start writing — free", href: "#" },
+  cta: { label: "Start your 14-day trial", href: "#" },
 };

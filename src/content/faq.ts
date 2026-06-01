@@ -14,7 +14,7 @@ export const faqIntro = {
 export const faqs = [
   {
     q: "Can you read my entries?",
-    a: "Honestly? For your everyday entries, we hold the key — so technically, we could. We never do, and we never will: your words are never sold, never used to train AI, never read by us. And for the writing you don't want anyone near, turn on the <strong>Private Vault</strong> — locked with a key only you hold. Those, we genuinely can't read. Neither can the AI. The whole story is on the <a href=\"/privacy\">Privacy page</a>.",
+    a: "Honestly? We hold the key — so technically, we could read your entries. We never do, and we never will: your words are never sold, never used to train AI, never read by us. The whole story is on the <a href=\"/privacy\">Privacy page</a>.",
   },
   {
     q: "Is this just a Bible app?",
@@ -42,10 +42,6 @@ export const faqs = [
   },
   {
     q: "What does it cost?",
-    a: "The page is free, forever — the full editor and focus mode, with no limits. The reflections (week, month, and the yearly mirror) are <strong>$59 a year</strong> — about $4.92 a month — or $8 month-to-month if you'd rather try it first. The longer you write, the more the year gives back.",
-  },
-  {
-    q: "What if I forget my Private Vault passphrase?",
-    a: "Then that writing is gone — even to us. The Vault's key is derived from your passphrase and never leaves your device, which is exactly what makes it unreadable to anyone else. It also means there's no “reset” link we could send, because there's nothing on our end to reset. Keep the passphrase somewhere safe.",
+    a: "One premium plan — the full editor and Looking back across week, month, quarter, and year. Start with a <strong>14-day free trial</strong>, then <strong>$59 a year</strong> (about $4.92 a month) or <strong>$8 month-to-month</strong> if you'd rather go slow. The longer you write, the more it gives back.",
   },
 ];

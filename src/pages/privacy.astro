@@ -55,28 +55,7 @@ import { privacyPage as p } from "../content/privacy";
           <h2>{p.straight.title}</h2>
           <p set:html={p.straight.body} />
         </div>
-      </SectionReveal>
-    </section>
-
-    {/* the Private Vault */}
-    <section class="wrap">
-      <SectionReveal>
-        <div class="vault">
-        <DawnGlow variant="corner" corner="top-right" />
-        <span class="vault-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="20" height="20">
-            <path
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.6"
-              d="M6 10V7a6 6 0 0 1 12 0v3M5 10h14v9H5z"></path>
-          </svg>
-        </span>
-        <h2>{p.vault.title}</h2>
-        <p class="vault-body">{p.vault.body}</p>
-        <p class="vault-line">{p.vault.line}</p>
-        <p class="vault-warning">{p.vault.warning}</p>
-        </div>
+        <p class="faith-line">{p.line}</p>
       </SectionReveal>
     </section>
 
@@ -200,65 +179,14 @@ import { privacyPage as p } from "../content/privacy";
     font-style: italic;
     color: var(--paper);
   }
-
-  /* the Private Vault */
-  .vault {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(165deg, var(--ink-3), var(--ink-2));
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 38px 36px;
-    box-shadow:
-      0 40px 80px -40px rgba(0, 0, 0, 0.8),
-      0 0 60px -30px rgba(243, 189, 118, 0.18);
-    text-align: center;
-  }
-  .vault-icon {
-    color: var(--dawn-1);
-    display: inline-flex;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 12px;
-  }
-  .vault h2 {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 24px;
-    color: var(--paper);
-    margin-bottom: 14px;
-    position: relative;
-    z-index: 1;
-  }
-  .vault-body {
-    font-size: 16.5px;
-    color: var(--paper-dim);
-    font-weight: 300;
-    line-height: 1.64;
-    max-width: 50ch;
-    margin: 0 auto 22px;
-    position: relative;
-    z-index: 1;
-  }
-  .vault-line {
+  .faith-line {
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 300;
     font-size: clamp(20px, 2.6vw, 27px);
     color: var(--gold);
-    margin-bottom: 22px;
-    position: relative;
-    z-index: 1;
-  }
-  .vault-warning {
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    color: var(--muted);
-    line-height: 1.6;
-    max-width: 46ch;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
+    text-align: center;
+    margin: 36px 0 0;
   }
 
   .cta-wrap {
