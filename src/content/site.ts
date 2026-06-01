@@ -7,9 +7,9 @@ export const site = {
   name: "Dayspring",
   // default per-page <title> tagline & description live in each page;
   // these are the global fallbacks / brand-level strings.
-  tagline: "See who you're becoming.",
+  tagline: "A journal built for spiritual growth.",
   description:
-    "A private AI journal for reflective Christians. Write each day; Dayspring turns it into a year-long mirror so you can see who you're becoming.",
+    "A journal rooted in time-tested practices — prayer, scripture, and reflection captured inline, carried forward across week, month, quarter, and year.",
   url: "https://dayspring.app",
   verse: {
     text: "…the Dayspring from on high has visited us",

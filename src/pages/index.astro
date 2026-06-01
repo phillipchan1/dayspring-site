@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
 import SectionReveal from "../components/SectionReveal.astro";
 import AppMock from "../components/AppMock.astro";
+import SlashCommandsMock from "../components/SlashCommandsMock.astro";
 import LookingBackMock from "../components/LookingBackMock.astro";
 import FormationMock from "../components/FormationMock.astro";
 import PricingTiers from "../components/PricingTiers.astro";
@@ -10,6 +11,7 @@ import { pricingHonest } from "../content/site";
 import {
   hero,
   problem,
+  slashCommands,
   editor,
   lookingBack,
   formation,
@@ -21,8 +23,8 @@ import {
 ---
 
 <Base
-  title="See who you're becoming"
-  description="A private journal that turns what you write into week, month, quarter, and year reflections — so you can see how far you've come, not just how you feel today."
+  title="A journal built for spiritual growth"
+  description="A journal for spiritual growth — prayer, scripture, and reflection rooted in time-tested practice, carried across week, month, quarter, and year."
   path="/"
 >
   <Hero
@@ -41,6 +43,26 @@ import {
         {problem.before}<span class="hl">{problem.highlight}</span>{problem.after}
       </p>
     </SectionReveal>
+  </section>
+
+  {/* slash commands — capture in flow */}
+  <section class="slash-sec">
+    <div class="wrap">
+      <div class="slash-grid">
+        <SectionReveal>
+          <div class="tag">{slashCommands.tag}</div>
+          <h2 set:html={slashCommands.heading} />
+          <p class="lead">{slashCommands.lead}</p>
+          <p class="bridge">{slashCommands.bridge}</p>
+        </SectionReveal>
+        <SectionReveal>
+          <SlashCommandsMock
+            commands={slashCommands.commands}
+            editorLines={slashCommands.editorLines}
+          />
+        </SectionReveal>
+      </div>
+    </div>
   </section>
 
   {/* the editor — live mock */}
@@ -170,6 +192,64 @@ import {
   .problem :global(.hl) {
     color: var(--dawn-2);
     font-style: italic;
+  }
+
+  /* ---- slash commands (copy left, mock right) ---- */
+  .slash-sec {
+    padding: 0 0 100px;
+  }
+  .slash-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .slash-sec .tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+    margin-bottom: 20px;
+  }
+  .slash-sec h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(34px, 5vw, 56px);
+    letter-spacing: -1px;
+    line-height: 1.04;
+    max-width: 14ch;
+    margin-bottom: 18px;
+  }
+  .slash-sec h2 :global(em) {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .slash-sec .lead {
+    font-size: 19px;
+    color: var(--paper-dim);
+    font-weight: 300;
+    max-width: 42ch;
+    line-height: 1.55;
+    margin-bottom: 22px;
+  }
+  .slash-sec .bridge {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 38ch;
+    line-height: 1.5;
+  }
+  @media (max-width: 900px) {
+    .slash-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .slash-sec h2 {
+      max-width: none;
+    }
   }
 
   /* ---- showcase (the editor) ---- */

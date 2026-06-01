@@ -1,14 +1,12 @@
 // ============================================================
-// /features — three deep dives: the editor, the year-in-review,
-// formation. Copy synthesized from the Notion product spec, written
-// to the First Light guardrails (use: becoming/formation/seasons/the
-// arc/carried; never "journaling app"/streaks/"faith journey").
+// /features — editor (slash + beauty), looking back, formation.
+// First Light guardrails: becoming/formation/seasons/the arc/carried.
 // ============================================================
 
 export const featuresIntro = {
   eyebrow: "Features",
-  heading: "Three things, <em>done with care.</em>",
-  lead: "A page you'll want to return to. A reflection that reads like a letter. And a quiet eye on the parts of you that never make it onto a to-do list. Everything else is table stakes.",
+  heading: "Write. Capture. <em>Look back.</em>",
+  lead: "A journal engineered for spiritual growth. Commands that meet you mid-sentence. Reflections that read like a letter — not a dashboard.",
 };
 
 // each deep dive renders with a live app-element mock (not a screenshot)
@@ -19,6 +17,10 @@ export const deepDives = [
     heading: "A page worth <em>returning to.</em>",
     lead: "The editor is the soul of Dayspring. If it isn't a joy to write in, nothing else matters — so this is where the most care went.",
     points: [
+      {
+        title: "Slash commands",
+        body: "Type `/` for scripture, prayer, impression, or a reminder to return. Inline glass panels, keyboard-native, dismissible. The spiritual life captured where it actually happens — in the middle of a sentence.",
+      },
       {
         title: "Focus mode",
         body: "Everything but your words disappears. Typewriter scrolling keeps the line you're writing at eye level; the lines above quietly dim. Just you and the page.",
@@ -36,13 +38,13 @@ export const deepDives = [
         body: "Not a shrunk desktop — a thumb-reachable, keyboard-aware page for writing on the move, with the same quiet it has on your Mac.",
       },
     ],
-    mock: "editor",
+    mock: "slash",
   },
   {
-    id: "year-in-review",
-    tag: "The year-in-review",
-    heading: "Letters to yourself, <em>not reports.</em>",
-    lead: "Each week, month, and year, Dayspring reads back what you wrote and tells you what changed — in your own words, pulled forward. Not a chart. A letter.",
+    id: "looking-back",
+    tag: "Looking back",
+    heading: "See who you're <em>becoming.</em>",
+    lead: "What you plant with `/` compounds over time. Four horizons — week, month, quarter, year — each reading the one beneath it. Your own words, returned in prose.",
     points: [
       {
         title: "It compounds, the way memory does",
@@ -53,8 +55,8 @@ export const deepDives = [
         body: "Decide what Dayspring reflects on — the Gain, gratitude, formation, work, family. The reflection is shaped by what you're actually paying attention to this season.",
       },
       {
-        title: "Three wins, every day",
-        body: "A light daily touch — three wins from today, three you're reaching for tomorrow. Enough to keep you writing until the long-horizon reflections have something to say.",
+        title: "Three wins, every week",
+        body: "A light Sabbath stop — three wins from this week, three you're reaching for next. Enough to keep you writing until the long-horizon reflections have something to say.",
       },
     ],
     mock: "letter",

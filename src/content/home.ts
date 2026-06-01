@@ -6,8 +6,8 @@
 
 export const hero = {
   eyebrow: "For the inner life — and the long walk",
-  lines: ["See who", "you're <em>becoming.</em>"],
-  sub: "A private journal that turns what you write each day into reflections across the week, month, quarter, and year — so you can finally see how far you've come, not just how you feel today.",
+  lines: ["A journal built for", "spiritual <em>growth.</em>"],
+  sub: "Rooted in time-tested practices — prayer, scripture, and honest reflection over the long walk. Careful tooling helps you stay with the disciplines you've been keeping, not shortcut past them.",
   verse: {
     text: "…the Dayspring from on high has visited us",
     ref: "Luke 1:78",
@@ -20,14 +20,53 @@ export const hero = {
 export const problem = {
   before: "Every other journal keeps you in ",
   highlight: "today",
-  after: " — today's mood, today's prompt, today's verse. None of them show you the arc.",
+  after: " — today's mood, today's prompt, today's verse. None let you capture a prayer mid-sentence — and none show you the arc.",
+};
+
+// slash commands — capture in flow (hero product moment on home)
+export const slashCommands = {
+  tag: "Slash commands",
+  heading: "Type `/`. <em>Plant what matters.</em>",
+  lead: "Four commands, right in the sentence you're writing. No sidebar, no prompt-of-the-day, no leaving the page.",
+  bridge:
+    "What you plant here is what Looking back reads later. First, it's just you and the page.",
+  commands: [
+    {
+      id: "scripture",
+      label: "/scripture",
+      hint: "Find relevant Bible passages",
+      blurb: "Passages from what you've written — or search by topic. ESV, inline.",
+    },
+    {
+      id: "pray",
+      label: "/pray",
+      hint: "Log a prayer",
+      blurb: "Log a prayer without breaking the flow. Type optional; never required.",
+    },
+    {
+      id: "sense",
+      label: "/sense",
+      hint: "Record a word or impression",
+      blurb: "A word or impression, before it slips away.",
+    },
+    {
+      id: "remind",
+      label: "/remind",
+      hint: "Return to these words later",
+      blurb: "Mark these words to return to — a week, a month, a season, a year.",
+    },
+  ],
+  editorLines: [
+    "I went in defensive and left grateful — not sure when that shifted.",
+    "I've been praying about patience for months now.",
+  ],
 };
 
 // the editor showcase
 export const editor = {
   tag: "The editor",
   heading: "A page worth <em>returning to.</em>",
-  lead: "No clutter, no nagging, no cartoon streaks — just a beautiful, full-screen page. Typewriter scrolling, the themes and fonts you'd find in a code editor, and zero lag between thought and word.",
+  lead: "Focus mode, code-editor themes, typewriter scroll, zero lag — a full-screen page built for the long walk, not a daily check-in.",
   mock: {
     file: "march-14.md",
     meta: ["Focus mode", "JetBrains Mono"],
@@ -58,8 +97,8 @@ export const editor = {
 // Looking back — four horizons, compounding rollups (Insight Layer v2)
 export const lookingBack = {
   tag: "Looking back",
-  heading: "Four horizons, <em>one arc.</em>",
-  lead: "Each reflection reads the one beneath it — your own words, returned in prose. Tap a horizon.",
+  heading: "See who you're <em>becoming.</em>",
+  lead: "Four horizons — week, month, quarter, year — each reading the one beneath it. Your own words, returned in prose. Tap a horizon.",
   horizons: [
     {
       id: "week",

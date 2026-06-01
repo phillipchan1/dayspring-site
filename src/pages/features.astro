@@ -1,16 +1,16 @@
 ---
 import Base from "../layouts/Base.astro";
 import SectionReveal from "../components/SectionReveal.astro";
-import AppMock from "../components/AppMock.astro";
-import LetterCard from "../components/LetterCard.astro";
+import SlashCommandsMock from "../components/SlashCommandsMock.astro";
 import FormationMock from "../components/FormationMock.astro";
+import LookingBackMock from "../components/LookingBackMock.astro";
 import { featuresIntro, deepDives } from "../content/features";
-import { yearInReview, formation } from "../content/home";
+import { slashCommands, lookingBack, formation } from "../content/home";
 ---
 
 <Base
   title="Features"
-  description="A page worth returning to, a reflection that reads like a letter, and a quiet eye on the formation that never makes it onto a to-do list."
+  description="Slash commands for scripture, prayer, and impression inline. A page worth returning to. Reflections across week, month, quarter, and year."
   path="/features"
 >
   <section class="f-intro">
@@ -41,15 +41,14 @@ import { yearInReview, formation } from "../content/home";
             </SectionReveal>
 
             <SectionReveal class="visual">
-              {dive.mock === "editor" && <AppMock />}
-              {dive.mock === "letter" && (
-                <LetterCard
-                  kind={yearInReview.letter.kind}
-                  period={yearInReview.letter.period}
-                  title={yearInReview.letter.title}
-                  paragraphs={yearInReview.letter.paragraphs}
-                  signature={yearInReview.letter.signature}
+              {dive.mock === "slash" && (
+                <SlashCommandsMock
+                  commands={slashCommands.commands}
+                  editorLines={slashCommands.editorLines}
                 />
+              )}
+              {dive.mock === "letter" && (
+                <LookingBackMock horizons={lookingBack.horizons} />
               )}
               {dive.mock === "formation" && (
                 <FormationMock

@@ -21,6 +21,10 @@ export const faqs = [
     a: "No. Dayspring is a place to write, and to see who you're becoming over time — that's the whole product. No verse-of-the-day, no reading plan, no streak to keep. If you'd like it to pay attention to your formation — patience, prayer, the slow move from head to heart — it will, gently. If you wouldn't, it's simply a beautiful page to write on.",
   },
   {
+    q: "What are slash commands?",
+    a: "Type <strong>/</strong> in any entry to open four commands: <strong>/scripture</strong> for ESV passages, <strong>/pray</strong> to log a prayer, <strong>/sense</strong> for a word or impression, and <strong>/remind</strong> to return to these words later. Each opens an inline panel — you never leave the page. See <a href=\"/features#editor\">the editor</a> for more.",
+  },
+  {
     q: "Do I have to be a Christian to use it?",
     a: "Not at all. The long view works for anyone who wants to see their life as more than today. The faith-aware reflections are a lens you choose — not a default you have to opt out of.",
   },
