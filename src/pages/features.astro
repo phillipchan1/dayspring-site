@@ -1,11 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
 import SectionReveal from "../components/SectionReveal.astro";
-import EditorMock from "../components/EditorMock.astro";
+import AppMock from "../components/AppMock.astro";
 import LetterCard from "../components/LetterCard.astro";
 import FormationMock from "../components/FormationMock.astro";
 import { featuresIntro, deepDives } from "../content/features";
-import { editor, yearInReview, formation } from "../content/home";
+import { yearInReview, formation } from "../content/home";
 ---
 
 <Base
@@ -41,15 +41,7 @@ import { editor, yearInReview, formation } from "../content/home";
             </SectionReveal>
 
             <SectionReveal class="visual">
-              {dive.mock === "editor" && (
-                <EditorMock
-                  file={editor.mock.file}
-                  meta={editor.mock.meta}
-                  day={editor.mock.day}
-                  lines={editor.mock.lines}
-                  themes={editor.mock.themes}
-                />
-              )}
+              {dive.mock === "editor" && <AppMock />}
               {dive.mock === "letter" && (
                 <LetterCard
                   kind={yearInReview.letter.kind}

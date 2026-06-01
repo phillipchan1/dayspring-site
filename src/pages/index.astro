@@ -2,8 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
 import SectionReveal from "../components/SectionReveal.astro";
-import EditorMock from "../components/EditorMock.astro";
-import PhoneFrame from "../components/PhoneFrame.astro";
+import AppMock from "../components/AppMock.astro";
 import LetterCard from "../components/LetterCard.astro";
 import FormationMock from "../components/FormationMock.astro";
 import PricingTiers from "../components/PricingTiers.astro";
@@ -54,28 +53,7 @@ import {
       </SectionReveal>
 
       <SectionReveal class="stage">
-        <EditorMock
-          file={editor.mock.file}
-          meta={editor.mock.meta}
-          day={editor.mock.day}
-          lines={editor.mock.lines}
-          themes={editor.mock.themes}
-        />
-        <div class="stage-phone">
-          <PhoneFrame width={160} rotate={3} glow={false}>
-            <div class="pscr">
-              <div class="pday">{editor.phone.day}</div>
-              {
-                editor.phone.wins.map((win) => (
-                  <div class="pwin">
-                    <b>✓</b>
-                    {win}
-                  </div>
-                ))
-              }
-            </div>
-          </PhoneFrame>
-        </div>
+        <AppMock />
       </SectionReveal>
     </div>
   </section>
@@ -275,43 +253,6 @@ import {
     );
     filter: blur(22px);
   }
-  .stage-phone {
-    position: absolute;
-    right: -6px;
-    bottom: -34px;
-    z-index: 2;
-  }
-  .pscr {
-    padding: 12px 11px;
-  }
-  .pday {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 1px;
-    color: var(--dawn-1);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .pwin {
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-    font-family: var(--font-body);
-    font-size: 12.5px;
-    color: var(--paper-dim);
-    line-height: 1.42;
-    margin-bottom: 11px;
-  }
-  .pwin b {
-    color: var(--dawn-1);
-    font-weight: 400;
-  }
-  @media (max-width: 600px) {
-    .stage-phone {
-      display: none;
-    }
-  }
-
   /* ---- feature (year-in-review) ---- */
   .feature {
     padding: 60px 0 130px;

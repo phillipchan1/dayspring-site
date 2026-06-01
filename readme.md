@@ -38,7 +38,7 @@ src/
     DawnGlow.astro     # reusable radial backlight (stage/corner/bloom)
     SectionReveal.astro# IntersectionObserver fade-up wrapper
     Hero.astro         # the dawn — one dramatic motion moment
-    EditorMock.astro   # framed editor: focus dimming, caret, theme swatches
+    AppMock.astro      # native recreation of the real app (rail + entries + editor)
     PhoneFrame.astro   # dark device shell — native mock OR real screenshot
     LetterCard.astro   # the "letter to yourself" reflection card
     PricingTiers.astro # 3 tiers, Annual featured

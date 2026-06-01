@@ -34,16 +34,16 @@ Rules:
 
 ## Slots
 
-| Slot key        | Page        | Where                                  | Frame        | Native mock today        | Target file(s)                                   | Intrinsic size |
-| --------------- | ----------- | -------------------------------------- | ------------ | ------------------------ | ------------------------------------------------ | -------------- |
-| `home-editor`   | `/` (Home)  | Editor showcase (`<EditorMock>`)       | desktop      | `<EditorMock>` (CSS)     | `editor-march-14.png` / `@2x`                    | 860 × ~520     |
-| `home-wins`     | `/` (Home)  | Phone in the editor stage              | `PhoneFrame` | "3 wins · today" list    | `home-wins.png` / `@2x`                          | 160 × ~340     |
-| `home-letter`   | `/` (Home)  | Year-in-review (`<LetterCard>`)        | none/native  | `<LetterCard>` (CSS)     | optional — letter is intentionally native        | —              |
+| Slot key        | Page                 | Where                              | Frame       | Native mock today    | Target file(s)                | Intrinsic size |
+| --------------- | -------------------- | ---------------------------------- | ----------- | -------------------- | ----------------------------- | -------------- |
+| `app-editor`    | `/` + `/features`    | Editor showcase (`<AppMock>`)      | app window  | `<AppMock>` (CSS)    | `app-editor.png` / `@2x`      | 860 × ~520     |
+| `home-letter`   | `/` (Home)           | Year-in-review (`<LetterCard>`)    | none/native | `<LetterCard>` (CSS) | optional — intentionally native | —            |
 
-> The home **editor** and **letter** are intentionally **native HTML/CSS**
-> (the product's code-editor aesthetic reproduces better as real markup than as
-> a flat image). Swap them for screenshots only if a real capture reads better.
-> The **phone "wins"** slot is the most natural place for a real screenshot.
+> `<AppMock>` is a **native HTML/CSS recreation of the real desktop app**
+> (rail + entries sidebar + editor), so it stays crisp and themed. It's used on
+> both Home and the `/features` editor deep dive. Swap it for a real screenshot
+> only if a capture reads better — and if so, drop the capture into a matching
+> desktop frame at the size above so there's no layout shift.
 
 ## Pending slots (added when the other routes are built)
 
