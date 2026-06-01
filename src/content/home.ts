@@ -7,9 +7,9 @@
 export const hero = {
   eyebrow: "For the inner life — and the long walk",
   lines: ["See who", "you're <em>becoming.</em>"],
-  sub: "A private journal that turns what you write each day into a year-long mirror — so you can finally see how far you've come, not just how you feel today.",
+  sub: "A private journal that turns what you write each day into reflections across the week, month, quarter, and year — so you can finally see how far you've come, not just how you feel today.",
   verse: {
-    text: "…the dayspring from on high hath visited us.",
+    text: "…the Dayspring from on high has visited us",
     ref: "Luke 1:78",
   },
   primary: { label: "Start writing — free", href: "#" },
@@ -55,20 +55,58 @@ export const editor = {
   },
 };
 
-// the year-in-review / "letter" — the hero feature
-export const yearInReview = {
-  tag: "The hero feature",
-  heading: "Letters to yourself, <em>not reports.</em>",
-  lead: "Each week, month, and year, Dayspring reads back what you wrote and tells you what changed — in your own story, not a chart. By year's end, you have an honest mirror of who you were, and who you've become.",
-  letter: {
-    kind: "Monthly reflection",
-    period: "March",
+// Looking back — four horizons, compounding rollups (Insight Layer v2)
+export const lookingBack = {
+  tag: "Looking back",
+  heading: "Four horizons, <em>one arc.</em>",
+  lead: "Each reflection reads the one beneath it — days into weeks, weeks into months, months into quarters, quarters into years. Your own words, returned in prose. No charts, no streaks, no mood scores.",
+  points: [
+    {
+      title: "Week · the Sabbath stop",
+      body: "A tactical pause — what moved this week, three wins carried forward, and a few questions to seed your next entry.",
+    },
+    {
+      title: "Month · the letter",
+      body: "A letter to yourself in your own words. Arcs, not days. What changed, measured backward against last month.",
+    },
+    {
+      title: "Quarter · the retreat",
+      body: "The view a retreat is for — recurring themes, long-horizon questions, and Ebenezer stones: prayers you named beside where they stand now.",
+    },
+    {
+      title: "Year · the mirror",
+      body: "Who you were a year ago vs. who you are now. The throughline the whole architecture exists to produce.",
+    },
+  ],
+  mock: {
+    horizons: [
+      { label: "Week", character: "The Sabbath stop" },
+      { label: "Month", character: "The letter" },
+      { label: "Quarter", character: "The retreat" },
+      { label: "Year", character: "The mirror" },
+    ],
+    active: "Month",
+    kicker: "Monthly · the letter",
     title: "What changed in you this month",
     paragraphs: [
       "You started March bracing for the worst. By the third week, something settled — you wrote less about fear and more about the people in front of you.",
       "The patience you've been praying for? <em>It showed up in small places</em> — the dinner table, the long call with your brother.",
     ],
     signature: "— Dayspring, looking back with you",
+  },
+};
+
+// kept for /features — same letter content, nested under lookingBack
+export const yearInReview = {
+  tag: lookingBack.tag,
+  heading: lookingBack.heading,
+  lead: lookingBack.lead,
+  letter: {
+    kind: "Monthly reflection",
+    period: "March",
+    title: lookingBack.mock.title,
+    paragraphs: lookingBack.mock.paragraphs,
+    signature: lookingBack.mock.signature,
   },
 };
 
@@ -93,7 +131,7 @@ export const formation = {
 // the Gain — not the Gap
 export const gain = {
   quote:
-    "Measure backward, not forward. You'll be surprised how far grace has carried you.",
+    "Measure backward, not forward. Each horizon compares you to who you actually were — never the person you think you should already be.",
   attribution: "The Gain · not the Gap",
 };
 
@@ -122,5 +160,5 @@ export const privacy = {
 export const pricing = {
   tag: "Pricing",
   heading: "Free to begin. <em>Worth more with time.</em>",
-  lead: "The page is free, forever. The reflections — the part that shows you the arc — are what you grow into.",
+  lead: "The page is free, forever. Looking back — the part that shows you the arc across week, month, quarter, and year — is what you grow into.",
 };

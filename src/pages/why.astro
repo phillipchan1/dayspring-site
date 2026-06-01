@@ -95,9 +95,18 @@ import { why } from "../content/why";
   }
   .glow-host {
     position: absolute;
-    inset: 0;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
     overflow: hidden;
     pointer-events: none;
+  }
+  .glow-host :global(.dg-bloom) {
+    width: 85vw;
+    height: 140%;
+    max-width: 960px;
   }
   .why-head .kicker {
     font-size: 12.5px;

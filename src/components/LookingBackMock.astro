@@ -1,0 +1,153 @@
+---
+// LookingBackMock — the calm, full-screen reflection view: fixed horizon
+// pills, free-floating serif prose, no dashboard chrome. Matches the app's
+// Looking Back v2 layout (static marketing recreation).
+interface Horizon {
+  label: string;
+  character: string;
+}
+interface Props {
+  horizons: Horizon[];
+  active: string;
+  kicker: string;
+  title: string;
+  paragraphs: string[];
+  signature?: string;
+  class?: string;
+}
+const {
+  horizons,
+  active,
+  kicker,
+  title,
+  paragraphs,
+  signature = "— Dayspring, looking back with you",
+  class: className = "",
+} = Astro.props;
+---
+
+<div class:list={["lb", className]}>
+  <nav class="pills" aria-label="Reflection horizons">
+    {
+      horizons.map((h) => (
+        <span class:list={["pill", { active: h.label === active }]}>
+          {h.label}
+        </span>
+      ))
+    }
+  </nav>
+
+  <div class="content">
+    <p class="kicker mono">{kicker}</p>
+    <h3>{title}</h3>
+    {paragraphs.map((p) => <p class="body" set:html={p} />)}
+    {signature && <p class="sig">{signature}</p>}
+  </div>
+</div>
+
+<style>
+  .lb {
+    position: relative;
+    min-height: 420px;
+    padding: 36px 32px 40px;
+    border-radius: 18px;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        ellipse 80% 60% at 50% 18%,
+        rgba(243, 189, 118, 0.1),
+        transparent 70%
+      ),
+      linear-gradient(180deg, var(--ink-3), var(--ink-2));
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .pills {
+    display: flex;
+    gap: 6px;
+    padding: 4px;
+    border-radius: 100px;
+    background: rgba(12, 13, 17, 0.55);
+    border: 1px solid var(--border);
+    margin-bottom: 48px;
+    position: relative;
+    z-index: 1;
+  }
+  .pill {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.6px;
+    color: var(--muted);
+    padding: 7px 14px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .pill.active {
+    color: var(--paper);
+    background: rgba(236, 231, 221, 0.1);
+    border: 1px solid rgba(236, 231, 221, 0.14);
+  }
+
+  .content {
+    max-width: 36ch;
+    position: relative;
+    z-index: 1;
+  }
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+    margin-bottom: 20px;
+  }
+  .content h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.25;
+    color: var(--paper);
+    margin-bottom: 18px;
+  }
+  .body {
+    font-family: var(--font-body);
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--paper-dim);
+    font-weight: 300;
+    margin-bottom: 14px;
+    text-align: left;
+  }
+  .body :global(em) {
+    color: var(--gold);
+    font-style: italic;
+  }
+  .sig {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 8px;
+    text-align: left;
+  }
+
+  @media (max-width: 520px) {
+    .lb {
+      padding: 28px 20px 32px;
+      min-height: 380px;
+    }
+    .pills {
+      flex-wrap: wrap;
+      justify-content: center;
+      border-radius: 16px;
+      margin-bottom: 36px;
+    }
+    .pill {
+      font-size: 10px;
+      padding: 6px 11px;
+    }
+  }
+</style>

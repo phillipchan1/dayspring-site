@@ -14,30 +14,50 @@ interface Props {
   label: string;
   season: string;
   qualities: Quality[];
+  comingSoon?: boolean;
   class?: string;
 }
-const { label, season, qualities, class: className = "" } = Astro.props;
+const {
+  label,
+  season,
+  qualities,
+  comingSoon = false,
+  class: className = "",
+} = Astro.props;
 ---
 
-<article class:list={["formation", className]}>
-  <DawnGlow variant="corner" corner="top-left" />
-  <div class="meta"><span>{label}</span><span>{season}</span></div>
-  <ul class="qualities">
-    {
-      qualities.map((q) => (
-        <li>
-          <span class:list={["mark", q.dir]} aria-hidden="true">
-            {q.dir === "up" ? "↗" : "↘"}
-          </span>
-          <span class="name">{q.name}</span>
-          <span class="movement">{q.movement}</span>
-        </li>
-      ))
-    }
-  </ul>
-</article>
+<div class:list={["formation-wrap", className]}>
+  <article class="formation">
+    <DawnGlow variant="corner" corner="top-left" />
+    <div class="meta"><span>{label}</span><span>{season}</span></div>
+    <ul class="qualities">
+      {
+        qualities.map((q) => (
+          <li>
+            <span class:list={["mark", q.dir]} aria-hidden="true">
+              {q.dir === "up" ? "↗" : "↘"}
+            </span>
+            <span class="name">{q.name}</span>
+            <span class="movement">{q.movement}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </article>
+  {
+    comingSoon && (
+      <div class="soon-overlay" aria-hidden="true">
+        <span class="soon-label">Coming soon</span>
+      </div>
+    )
+  }
+</div>
 
 <style>
+  .formation-wrap {
+    position: relative;
+  }
+
   .formation {
     background: linear-gradient(165deg, var(--ink-3), var(--ink-2));
     border: 1px solid var(--border);
@@ -101,5 +121,28 @@ const { label, season, qualities, class: className = "" } = Astro.props;
     font-weight: 300;
     font-style: italic;
     line-height: 1.5;
+  }
+
+  .soon-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: rgba(12, 13, 17, 0.55);
+    backdrop-filter: blur(3px);
+    z-index: 2;
+  }
+  .soon-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+    border: 1px solid rgba(243, 189, 118, 0.35);
+    border-radius: 100px;
+    padding: 8px 16px;
+    background: rgba(12, 13, 17, 0.6);
   }
 </style>

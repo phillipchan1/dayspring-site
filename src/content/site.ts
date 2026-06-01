@@ -12,15 +12,15 @@ export const site = {
     "A private AI journal for reflective Christians. Write each day; Dayspring turns it into a year-long mirror so you can see who you're becoming.",
   url: "https://dayspring.app",
   verse: {
-    text: "…the dayspring from on high hath visited us.",
+    text: "…the Dayspring from on high has visited us",
     ref: "Luke 1:78",
   },
 } as const;
 
 // download pills (iOS + macOS) in the nav and CTAs.
-// macOS: the href is a no-JS fallback to the latest release PAGE; a small
-// progressive-enhancement script (Nav.astro) resolves the exact latest .dmg
-// at runtime via the GitHub API and rewrites the href to a direct download.
+// macOS: a stable-named asset (`Dayspring-aarch64.dmg`) is published on every
+// release, so GitHub's "latest" URL always points at the newest build — a
+// clean, zero-JS direct download. No API call, no rate limits.
 // iOS: not shipped yet — rendered as a non-clickable "coming soon" pill.
 export const releasesRepo = "phillipchan1/dayspring-releases";
 
@@ -28,8 +28,7 @@ export const downloads = {
   ios: { label: "iOS", comingSoon: true, soonLabel: "Soon" },
   macos: {
     label: "macOS",
-    // no-JS / fallback target: GitHub's "latest release" page
-    href: `https://github.com/${releasesRepo}/releases/latest`,
+    href: `https://github.com/${releasesRepo}/releases/latest/download/Dayspring-aarch64.dmg`,
   },
 } as const;
 

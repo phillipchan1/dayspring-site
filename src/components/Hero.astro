@@ -1,6 +1,6 @@
 ---
 // Hero — the one dramatic motion moment: the dawn rising over the dark
-// page. The radial "dawn", the horizon line, staggered headline fade-ups,
+// page. The radial "dawn", staggered headline fade-ups,
 // the blinking verse caret, and a subtle scroll-parallax on the dawn.
 // All motion is disabled under prefers-reduced-motion (global.css + guarded JS).
 interface Props {
@@ -17,7 +17,6 @@ const { eyebrow, lines, sub, verse, primary, ghost } = Astro.props;
 
 <header>
   <div class="dawn" id="dawn"></div>
-  <div class="horizon"></div>
   <div class="wrap hero-inner">
     <p class="eyebrow">{eyebrow}</p>
     <h1>
@@ -81,21 +80,6 @@ const { eyebrow, lines, sub, verse, primary, ghost } = Astro.props;
     }
   }
 
-  .horizon {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 30vh;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(243, 189, 118, 0.5),
-      transparent
-    );
-    opacity: 0;
-    animation: fade 2s ease 1s forwards;
-  }
   @keyframes fade {
     to {
       opacity: 1;
@@ -218,13 +202,12 @@ const { eyebrow, lines, sub, verse, primary, ghost } = Astro.props;
     animation: fade 1.5s ease 2s forwards;
   }
 
-  /* Under reduced motion, the dawn & horizon are pinned visible (no rise). */
+  /* Under reduced motion, the dawn is pinned visible (no rise). */
   @media (prefers-reduced-motion: reduce) {
     .dawn {
       opacity: 1;
       transform: translateX(-50%) scale(1);
     }
-    .horizon,
     .eyebrow,
     h1 .l,
     .sub,

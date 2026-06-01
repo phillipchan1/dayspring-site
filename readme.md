@@ -78,17 +78,14 @@ Formation section, and the single Vault line.
 
 ## Downloads
 
-- **macOS** pill always serves the **latest `.dmg`** from GitHub Releases
-  (`phillipchan1/dayspring-releases`). Because the asset name is versioned
-  (`Dayspring_<v>_aarch64.dmg`), GitHub's stable `/releases/latest/download/<name>`
-  URL can't be used directly, so `Nav.astro` progressively enhances the link:
-  the `href` defaults to the latest-release **page** (works with no JS / if the
-  API is down), and on hover/focus a tiny script resolves the exact `.dmg` via
-  the GitHub REST API (CORS-enabled) and rewrites the `href` to a direct download.
-  - **To make this a clean, zero-JS link instead:** have the release CI also
-    publish a stable-named copy (e.g. `Dayspring-aarch64.dmg`), then point the
-    pill straight at
-    `https://github.com/phillipchan1/dayspring-releases/releases/latest/download/Dayspring-aarch64.dmg`.
+- **macOS** pill is a clean, zero-JS direct link to the **latest `.dmg`**:
+  `https://github.com/phillipchan1/dayspring-releases/releases/latest/download/Dayspring-aarch64.dmg`.
+  This works because the release publishes a **stable-named** asset
+  (`Dayspring-aarch64.dmg`) on every version, so GitHub's `/releases/latest/`
+  URL always resolves to the newest build — no API call, no rate limits.
+  ⚠️ The release CI must keep emitting `Dayspring-aarch64.dmg` (in addition to
+  the versioned `Dayspring_<v>_aarch64.dmg`) for this link to stay current.
+  The download URL lives in `src/content/site.ts` (`downloads.macos.href`).
 - **iOS** is rendered as a non-clickable "Soon" pill until it ships.
 
 ### Open follow-ups

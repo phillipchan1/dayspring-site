@@ -1,6 +1,7 @@
 ---
 // Nav — sticky, transparent over the hero; gains a blurred ink background
 // once scrolled. Text links collapse on mobile; the download pills stay.
+import Mark from "./Mark.astro";
 import { navLinks, downloads, site, releasesRepo } from "../content/site";
 
 // Apple logo glyph — shared by both download pills.
@@ -9,7 +10,7 @@ const applePath =
 ---
 
 <nav id="nav" aria-label="Primary">
-  <a href="/" class="brand"><span class="dot"></span>{site.name}</a>
+  <a href="/" class="brand"><Mark size={22} />{site.name}</a>
   <div class="navlinks">
     {
       navLinks.map((link) => (
@@ -74,14 +75,6 @@ const applePath =
     color: var(--paper);
     text-decoration: none;
   }
-  .brand .dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, var(--dawn-1), var(--dawn-3));
-    box-shadow: 0 0 14px 1px rgba(243, 189, 118, 0.6);
-  }
-
   .navlinks {
     display: flex;
     gap: 30px;

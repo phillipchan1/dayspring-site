@@ -1,11 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7" fill="#0c0d11"/>
-  <defs>
-    <radialGradient id="dawn" cx="38%" cy="36%" r="70%">
-      <stop offset="0%" stop-color="#f3bd76"/>
-      <stop offset="55%" stop-color="#e8917c"/>
-      <stop offset="100%" stop-color="#c56a6e"/>
-    </radialGradient>
-  </defs>
-  <circle cx="16" cy="16" r="7" fill="url(#dawn)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="7" fill="#1b1e27"/>
+  <g transform="translate(4 4)">
+    <path d="M5 17a7 7 0 0 1 14 0" fill="#e0a64e"/>
+    <g stroke="#e0a64e" stroke-width="1.6" stroke-linecap="round">
+      <path d="M12 3v3"/>
+      <path d="M4.4 7.4l2.1 2.1"/>
+      <path d="M19.6 7.4l-2.1 2.1"/>
+      <path d="M2.5 17h19"/>
+    </g>
+  </g>
 </svg>

@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import { site } from "../content/site";
 
 interface Props {
-  /** Page <title>. Brand name is appended automatically unless `bareTitle`. */
+  /** Page <title>. Brand name is prefixed automatically unless `bareTitle`. */
   title: string;
   /** Meta description / OG description. */
   description?: string;
@@ -13,7 +13,7 @@ interface Props {
   ogImage?: string;
   /** Canonical path, e.g. "/why". Defaults to the current request path. */
   path?: string;
-  /** When true, use `title` verbatim (don't append the brand name). */
+  /** When true, use `title` verbatim (don't prefix the brand name). */
   bareTitle?: boolean;
   /** Footer style: "full" (closing CTA + links) or "minimal" (links only). */
   footer?: "full" | "minimal";
@@ -28,7 +28,7 @@ const {
   footer = "full",
 } = Astro.props;
 
-const fullTitle = bareTitle ? title : `${title} — ${site.name}`;
+const fullTitle = bareTitle ? title : `${site.name} — ${title}`;
 const canonical = new URL(path ?? Astro.url.pathname, site.url).href;
 const ogImageUrl = new URL(ogImage, site.url).href;
 ---
