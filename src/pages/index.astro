@@ -1,0 +1,557 @@
+---
+import Base from "../layouts/Base.astro";
+import Hero from "../components/Hero.astro";
+import SectionReveal from "../components/SectionReveal.astro";
+import EditorMock from "../components/EditorMock.astro";
+import PhoneFrame from "../components/PhoneFrame.astro";
+import LetterCard from "../components/LetterCard.astro";
+import FormationMock from "../components/FormationMock.astro";
+import PricingTiers from "../components/PricingTiers.astro";
+import { pricingHonest } from "../content/site";
+import {
+  hero,
+  problem,
+  editor,
+  yearInReview,
+  formation,
+  gain,
+  bringHistory,
+  privacy,
+  pricing,
+} from "../content/home";
+---
+
+<Base
+  title="See who you're becoming"
+  description="A private journal that turns what you write each day into a year-long mirror — so you can finally see how far you've come, not just how you feel today."
+  path="/"
+>
+  <Hero
+    eyebrow={hero.eyebrow}
+    lines={hero.lines}
+    sub={hero.sub}
+    verse={hero.verse}
+    primary={hero.primary}
+    ghost={hero.ghost}
+  />
+
+  {/* problem line */}
+  <section class="problem">
+    <SectionReveal class="wrap">
+      <p>
+        {problem.before}<span class="hl">{problem.highlight}</span>{problem.after}
+      </p>
+    </SectionReveal>
+  </section>
+
+  {/* the editor — live mock */}
+  <section class="showcase">
+    <div class="wrap">
+      <SectionReveal class="head">
+        <div class="tag">{editor.tag}</div>
+        <h2 set:html={editor.heading} />
+        <p class="lead">{editor.lead}</p>
+      </SectionReveal>
+
+      <SectionReveal class="stage">
+        <EditorMock
+          file={editor.mock.file}
+          meta={editor.mock.meta}
+          day={editor.mock.day}
+          lines={editor.mock.lines}
+          themes={editor.mock.themes}
+        />
+        <div class="stage-phone">
+          <PhoneFrame width={160} rotate={3} glow={false}>
+            <div class="pscr">
+              <div class="pday">{editor.phone.day}</div>
+              {
+                editor.phone.wins.map((win) => (
+                  <div class="pwin">
+                    <b>✓</b>
+                    {win}
+                  </div>
+                ))
+              }
+            </div>
+          </PhoneFrame>
+        </div>
+      </SectionReveal>
+    </div>
+  </section>
+
+  {/* the year-in-review — the hero feature (letter card) */}
+  <section class="feature">
+    <div class="wrap">
+      <div class="grid">
+        <SectionReveal>
+          <div class="tag">{yearInReview.tag}</div>
+          <h2 set:html={yearInReview.heading} />
+          <p class="lead">{yearInReview.lead}</p>
+        </SectionReveal>
+        <SectionReveal>
+          <LetterCard
+            kind={yearInReview.letter.kind}
+            period={yearInReview.letter.period}
+            title={yearInReview.letter.title}
+            paragraphs={yearInReview.letter.paragraphs}
+            signature={yearInReview.letter.signature}
+          />
+        </SectionReveal>
+      </div>
+    </div>
+  </section>
+
+  {/* formation — the tasteful tell (mock left, text right) */}
+  <section class="feature formation-sec">
+    <div class="wrap">
+      <div class="grid">
+        <SectionReveal class="formation-visual">
+          <FormationMock
+            label={formation.mock.label}
+            season={formation.mock.season}
+            qualities={formation.mock.qualities}
+          />
+        </SectionReveal>
+        <SectionReveal>
+          <div class="tag">{formation.tag}</div>
+          <h2 set:html={formation.heading} />
+          <p class="lead">{formation.lead}</p>
+        </SectionReveal>
+      </div>
+    </div>
+  </section>
+
+  {/* the Gain — not the Gap */}
+  <section class="gain">
+    <SectionReveal class="wrap">
+      <p class="q">&ldquo;{gain.quote}&rdquo;</p>
+      <div class="a">{gain.attribution}</div>
+    </SectionReveal>
+  </section>
+
+  {/* bring your history — import (text left, mock right) */}
+  <section class="feature import-sec">
+    <div class="wrap">
+      <div class="grid">
+        <SectionReveal>
+          <div class="tag">{bringHistory.tag}</div>
+          <h2 set:html={bringHistory.heading} />
+          <p class="lead">{bringHistory.lead}</p>
+        </SectionReveal>
+        <SectionReveal>
+          <div class="import-card">
+            <div class="sources">
+              {
+                bringHistory.mock.sources.map((s) => (
+                  <span class="source">{s}</span>
+                ))
+              }
+            </div>
+            <div class="import-flow" aria-hidden="true">↓</div>
+            <div class="imported">{bringHistory.mock.imported}</div>
+            <div class="ready">{bringHistory.mock.ready}</div>
+          </div>
+        </SectionReveal>
+      </div>
+    </div>
+  </section>
+
+  {/* privacy as stewardship — near-bare, centered; the one unmistakable line */}
+  <section class="privacy-sec">
+    <SectionReveal class="wrap">
+      <div class="tag">{privacy.tag}</div>
+      <h2 set:html={privacy.heading} />
+      <p class="body">{privacy.body}</p>
+      <div class="vault">
+        <span class="vault-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="14" height="14">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              d="M6 10V7a6 6 0 0 1 12 0v3M5 10h14v9H5z"></path>
+          </svg>
+        </span>
+        <span class="vault-label">{privacy.vault.label}</span>
+        <span class="vault-state">{privacy.vault.state}</span>
+      </div>
+      <p class="line">{privacy.line}</p>
+    </SectionReveal>
+  </section>
+
+  {/* pricing */}
+  <section class="pricing">
+    <div class="wrap">
+      <SectionReveal class="head">
+        <div class="tag">{pricing.tag}</div>
+        <h2 set:html={pricing.heading} />
+        <p>{pricing.lead}</p>
+      </SectionReveal>
+      <SectionReveal>
+        <PricingTiers />
+      </SectionReveal>
+      <SectionReveal as="p" class="honest">{pricingHonest}</SectionReveal>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---- problem ---- */
+  .problem {
+    padding: 140px 0 120px;
+    text-align: center;
+  }
+  .problem :global(p) {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(26px, 4vw, 44px);
+    line-height: 1.32;
+    max-width: 20ch;
+    margin: 0 auto;
+    letter-spacing: -0.5px;
+  }
+  .problem :global(.hl) {
+    color: var(--dawn-2);
+    font-style: italic;
+  }
+
+  /* ---- showcase (the editor) ---- */
+  .showcase {
+    padding: 30px 0 130px;
+  }
+  .showcase :global(.head) {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .showcase .tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+    margin-bottom: 18px;
+  }
+  .showcase h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(34px, 5vw, 58px);
+    letter-spacing: -1px;
+    line-height: 1.04;
+    margin-bottom: 18px;
+  }
+  .showcase h2 :global(em) {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .showcase .lead {
+    font-size: 18px;
+    color: var(--paper-dim);
+    font-weight: 300;
+    max-width: 48ch;
+    margin: 0 auto;
+  }
+  .showcase :global(.stage) {
+    position: relative;
+    max-width: 860px;
+    margin: 0 auto;
+    padding-bottom: 30px;
+  }
+  /* the dawn backlight behind the editor stage */
+  .showcase :global(.stage)::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -8%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 95%;
+    border-radius: 50%;
+    z-index: 0;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(243, 189, 118, 0.2),
+      transparent 65%
+    );
+    filter: blur(22px);
+  }
+  .stage-phone {
+    position: absolute;
+    right: -6px;
+    bottom: -34px;
+    z-index: 2;
+  }
+  .pscr {
+    padding: 12px 11px;
+  }
+  .pday {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--dawn-1);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .pwin {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    color: var(--paper-dim);
+    line-height: 1.42;
+    margin-bottom: 11px;
+  }
+  .pwin b {
+    color: var(--dawn-1);
+    font-weight: 400;
+  }
+  @media (max-width: 600px) {
+    .stage-phone {
+      display: none;
+    }
+  }
+
+  /* ---- feature (year-in-review) ---- */
+  .feature {
+    padding: 60px 0 130px;
+  }
+  .feature .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .feature .tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+    margin-bottom: 20px;
+  }
+  .feature h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(34px, 5vw, 60px);
+    letter-spacing: -1px;
+    line-height: 1.04;
+    max-width: 16ch;
+    margin-bottom: 22px;
+  }
+  .feature h2 :global(em) {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .feature .lead {
+    font-size: 19px;
+    color: var(--paper-dim);
+    max-width: 48ch;
+    font-weight: 300;
+  }
+  @media (max-width: 820px) {
+    .feature .grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  /* ---- gain ---- */
+  .gain {
+    padding: 120px 0;
+    text-align: center;
+    position: relative;
+  }
+  .gain :global(.q) {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(28px, 4.4vw, 50px);
+    line-height: 1.28;
+    max-width: 18ch;
+    margin: 0 auto 18px;
+    letter-spacing: -0.5px;
+  }
+  .gain :global(.a) {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+  }
+
+  /* ---- formation (mock left, text right) ---- */
+  .formation-sec {
+    padding: 0 0 130px;
+  }
+  /* on mobile, lead with the text, then the visual */
+  @media (max-width: 820px) {
+    .formation-sec .grid > :global(.formation-visual) {
+      order: 2;
+    }
+  }
+
+  /* ---- bring your history / import ---- */
+  .import-sec {
+    padding: 0 0 130px;
+  }
+  .import-card {
+    background: linear-gradient(165deg, var(--ink-3), var(--ink-2));
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 32px;
+    text-align: center;
+    box-shadow:
+      0 40px 80px -40px rgba(0, 0, 0, 0.8),
+      0 0 60px -30px rgba(243, 189, 118, 0.18);
+  }
+  .import-card .sources {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .import-card .source {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    color: var(--paper-dim);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 7px 14px;
+  }
+  .import-card .import-flow {
+    color: var(--dawn-1);
+    font-size: 20px;
+    margin: 16px 0 14px;
+  }
+  .import-card .imported {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+    margin-bottom: 12px;
+  }
+  .import-card .ready {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 21px;
+    color: var(--paper);
+  }
+
+  /* ---- privacy as stewardship (near-bare, centered) ---- */
+  .privacy-sec {
+    padding: 30px 0 120px;
+    text-align: center;
+  }
+  .privacy-sec .tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+    margin-bottom: 22px;
+  }
+  .privacy-sec h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(28px, 4.4vw, 50px);
+    letter-spacing: -0.5px;
+    line-height: 1.14;
+    max-width: 20ch;
+    margin: 0 auto 26px;
+  }
+  .privacy-sec h2 :global(em) {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .privacy-sec .body {
+    font-size: 18px;
+    color: var(--paper-dim);
+    font-weight: 300;
+    line-height: 1.62;
+    max-width: 52ch;
+    margin: 0 auto 30px;
+  }
+  .privacy-sec .vault {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 9px 18px;
+    margin-bottom: 34px;
+  }
+  .privacy-sec .vault-icon {
+    color: var(--dawn-1);
+    display: inline-flex;
+  }
+  .privacy-sec .vault-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: var(--paper);
+  }
+  .privacy-sec .vault-state {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+  }
+  /* the one unmistakable line — placed with confidence */
+  .privacy-sec .line {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(22px, 3vw, 32px);
+    letter-spacing: -0.3px;
+    color: var(--gold);
+    max-width: 24ch;
+    margin: 0 auto;
+  }
+
+  /* ---- pricing ---- */
+  .pricing {
+    padding: 40px 0 120px;
+  }
+  .pricing :global(.head) {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .pricing .tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+    margin-bottom: 18px;
+  }
+  .pricing h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(32px, 5vw, 56px);
+    letter-spacing: -1px;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+  .pricing h2 :global(em) {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .pricing :global(.head) p {
+    color: var(--paper-dim);
+    font-weight: 300;
+    font-size: 18px;
+    max-width: 44ch;
+    margin: 0 auto;
+  }
+  .pricing :global(.honest) {
+    text-align: center;
+    margin-top: 36px;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 15px;
+  }
+</style>
