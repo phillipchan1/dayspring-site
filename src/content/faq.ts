@@ -18,11 +18,11 @@ export const faqs = [
   },
   {
     q: "Is this just a Bible app?",
-    a: "No. Dayspring is a place to write, and to see who you're becoming over time — that's the whole product. No verse-of-the-day, no reading plan, no streak to keep. If you'd like it to pay attention to your formation — patience, prayer, the slow move from head to heart — it will, gently. If you wouldn't, it's simply a beautiful page to write on.",
+    a: "No. Dayspring is a journal first — a beautiful page to write on, and a long look back over time. No verse-of-the-day, no reading plan, no streak. When you use <strong>/scripture</strong>, passages you keep build a canon map: which chapters you've returned to, in which seasons — not how much you've \"finished.\" See <a href=\"/features#scripture\">Scripture</a>.",
   },
   {
     q: "What are slash commands?",
-    a: "Type <strong>/</strong> in any entry to open four commands: <strong>/scripture</strong> for ESV passages, <strong>/pray</strong> to log a prayer, <strong>/sense</strong> for a word or impression, and <strong>/remind</strong> to return to these words later. Each opens an inline panel — you never leave the page. See <a href=\"/features#editor\">the editor</a> for more.",
+    a: "Type <strong>/</strong> in any entry to open four commands: <strong>/scripture</strong> for ESV passages (and every reference feeds your <a href=\"/features#scripture\">Scripture</a> map), <strong>/pray</strong> to log a prayer, <strong>/sense</strong> for a word or impression, and <strong>/remind</strong> to return later. Each opens an inline panel — you never leave the page.",
   },
   {
     q: "Do I have to be a Christian to use it?",
@@ -46,6 +46,6 @@ export const faqs = [
   },
   {
     q: "What does it cost?",
-    a: "One premium plan — the full editor and Looking back across week, month, quarter, and year. Start with a <strong>14-day free trial</strong>, then <strong>$59 a year</strong> (about $4.92 a month) or <strong>$8 month-to-month</strong> if you'd rather go slow. The longer you write, the more it gives back.",
+    a: "One premium plan — the full editor, Scripture view, Altar, and Looking back across every horizon. Start with a <strong>14-day free trial</strong>, then <strong>$59 a year</strong> (about $4.92 a month) or <strong>$8 month-to-month</strong> if you'd rather go slow. The longer you write, the more the map fills in.",
   },
 ];

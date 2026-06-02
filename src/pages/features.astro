@@ -2,15 +2,16 @@
 import Base from "../layouts/Base.astro";
 import SectionReveal from "../components/SectionReveal.astro";
 import SlashCommandsMock from "../components/SlashCommandsMock.astro";
-import FormationMock from "../components/FormationMock.astro";
+import AltarMock from "../components/AltarMock.astro";
+import ScriptureTeaser from "../components/ScriptureTeaser.astro";
 import LookingBackMock from "../components/LookingBackMock.astro";
 import { featuresIntro, deepDives } from "../content/features";
-import { slashCommands, lookingBack, formation } from "../content/home";
+import { slashCommands, lookingBack, altar } from "../content/home";
 ---
 
 <Base
   title="Features"
-  description="Slash commands for scripture, prayer, and impression inline. A page worth returning to. Reflections across week, month, quarter, and year."
+  description="Plant scripture inline, see where your heart has been leaning across the whole Bible, gather prayers on the Altar, and look back across week, month, quarter, and year."
   path="/features"
 >
   <section class="f-intro">
@@ -50,14 +51,15 @@ import { slashCommands, lookingBack, formation } from "../content/home";
               {dive.mock === "letter" && (
                 <LookingBackMock horizons={lookingBack.horizons} />
               )}
-              {dive.mock === "formation" && (
-                <FormationMock
-                  label={formation.mock.label}
-                  season={formation.mock.season}
-                  qualities={formation.mock.qualities}
-                  comingSoon
+              {dive.mock === "altar" && (
+                <AltarMock
+                  subtitle={altar.mock.subtitle}
+                  lenses={altar.mock.lenses}
+                  activeLens={altar.mock.activeLens}
+                  months={altar.mock.months}
                 />
               )}
+              {dive.mock === "scripture" && <ScriptureTeaser />}
             </SectionReveal>
           </div>
         </div>

@@ -1,0 +1,215 @@
+---
+// AltarMock — stream of spiritual artifacts planted via slash commands.
+interface Item {
+  type: "prayer" | "sense" | "scripture" | "reminder";
+  content: string;
+  reference?: string;
+  date: string;
+  entry?: string;
+}
+interface Month {
+  label: string;
+  items: Item[];
+}
+interface Props {
+  subtitle?: string;
+  lenses?: string[];
+  activeLens?: string;
+  months: Month[];
+  class?: string;
+}
+const {
+  subtitle = "Seeds planted in time",
+  lenses = ["All", "Prayer", "Sense", "Scripture"],
+  activeLens = "All",
+  months,
+  class: className = "",
+} = Astro.props;
+---
+
+<div class:list={["altar-mock", className]}>
+  <header class="altar-head">
+    <h3 class="altar-title">Altar</h3>
+    <p class="altar-sub">{subtitle}</p>
+  </header>
+
+  <div class="altar-toolbar">
+    <div class="altar-search" aria-hidden="true">Search…</div>
+    <div class="altar-lenses" role="group" aria-label="Filter by type">
+      {
+        lenses.map((l) => (
+          <span class:list={["lens", { active: l === activeLens }]}>{l}</span>
+        ))
+      }
+    </div>
+  </div>
+
+  {
+    months.map((month) => (
+      <section class="altar-month">
+        <h4 class="month-label">{month.label}</h4>
+        <ul class="altar-list">
+          {
+            month.items.map((item) => (
+              <li
+                class:list={[
+                  "altar-item",
+                  { scripture: item.type === "scripture" },
+                ]}
+              >
+                {item.type !== "scripture" && (
+                  <span class="item-type" data-type={item.type}>
+                    {item.type}
+                  </span>
+                )}
+                <p class="item-content">{item.content}</p>
+                {item.reference && (
+                  <p class="item-ref mono">{item.reference}</p>
+                )}
+                <div class="item-meta">
+                  <time>{item.date}</time>
+                  {item.entry && (
+                    <span class="open-entry">→ open entry</span>
+                  )}
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .altar-mock {
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--ink-3) 0%, var(--ink-2) 55%);
+    border: 1px solid var(--border);
+    padding: 28px 28px 32px;
+    max-height: 520px;
+    overflow-y: auto;
+  }
+
+  .altar-head {
+    margin-bottom: 20px;
+  }
+  .altar-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 3vw, 1.85rem);
+    color: var(--paper);
+    letter-spacing: 0.01em;
+    margin: 0;
+  }
+  .altar-sub {
+    margin: 6px 0 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .altar-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .altar-search {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 9px 12px;
+  }
+  .altar-lenses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .lens {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.3px;
+    padding: 6px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .lens.active {
+    color: var(--paper);
+    border-color: rgba(243, 189, 118, 0.35);
+    background: rgba(243, 189, 118, 0.08);
+  }
+
+  .altar-month {
+    margin-bottom: 24px;
+  }
+  .altar-month:last-child {
+    margin-bottom: 0;
+  }
+  .month-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .altar-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .altar-item {
+    padding: 14px 16px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(12, 13, 17, 0.35);
+  }
+  .altar-item.scripture {
+    border-left: 2px solid rgba(243, 189, 118, 0.4);
+  }
+  .item-type {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    text-transform: lowercase;
+    color: var(--dawn-1);
+    margin-bottom: 6px;
+  }
+  .item-content {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--paper);
+    font-weight: 300;
+    margin-bottom: 6px;
+  }
+  .altar-item.scripture .item-content {
+    font-style: italic;
+    color: var(--paper-dim);
+  }
+  .item-ref {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+    margin-bottom: 8px;
+  }
+  .item-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted);
+  }
+  .open-entry {
+    color: var(--paper-dim);
+  }
+</style>

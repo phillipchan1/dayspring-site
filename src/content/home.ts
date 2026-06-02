@@ -14,6 +14,23 @@ export const hero = {
   },
   primary: { label: "Start your 14-day trial", href: "#" },
   ghost: { label: "Why we built this →", href: "/why" },
+  /** Shown beneath the hero app mock — the editor promise in one line. */
+  mockCaption: "A page worth returning to.",
+  /** Hero mock — slash palette visible so the differentiator reads instantly. */
+  appMock: {
+    open: {
+      date: "march 14",
+      status: "112 words · saved just now · synced",
+      title: "Hard conversation with Marcus",
+      body: [
+        "I went in defensive and left grateful — not sure when that shifted.",
+      ],
+    },
+    slash: {
+      typed: "/scripture",
+      activeId: "scripture",
+    },
+  },
 };
 
 // problem line — `today` is highlighted in rose italic
@@ -29,13 +46,13 @@ export const slashCommands = {
   heading: "Type `/`. <em>Plant what matters.</em>",
   lead: "Four commands, right in the sentence you're writing. No sidebar, no prompt-of-the-day, no leaving the page.",
   bridge:
-    "What you plant here is what Looking back reads later. First, it's just you and the page.",
+    "What you plant in the sentence doesn't disappear — it gathers on the Altar, maps on Scripture, and feeds Looking back over time.",
   commands: [
     {
       id: "scripture",
       label: "/scripture",
       hint: "Find relevant Bible passages",
-      blurb: "Passages from what you've written — or search by topic. ESV, inline.",
+      blurb: "Passages from what you've written — or search by topic. ESV, inline. Every reference becomes part of your canon map.",
     },
     {
       id: "pray",
@@ -62,11 +79,25 @@ export const slashCommands = {
   ],
 };
 
-// the editor showcase
+// the editor — craft details (mock lives in hero; no second full app screenshot)
 export const editor = {
   tag: "The editor",
-  heading: "A page worth <em>returning to.</em>",
-  lead: "Focus mode, code-editor themes, typewriter scroll, zero lag — a full-screen page built for the long walk, not a daily check-in.",
+  heading: "Focus. Themes. <em>Zero lag.</em>",
+  lead: "Beautiful is what happens when nothing gets in the way — built for the long walk, not a daily check-in.",
+  highlights: [
+    {
+      title: "Focus mode",
+      body: "Everything but your words disappears. Typewriter scroll keeps the line you're on at eye level.",
+    },
+    {
+      title: "Themes & fonts",
+      body: "One Dark, Nord, Gruvbox — or paper and sepia. Monospace, serif, or sans; your measure and line height.",
+    },
+    {
+      title: "Keyboard-first",
+      body: "Markdown-native, continuous autosave, no perceptible lag between thought and word.",
+    },
+  ],
   mock: {
     file: "march-14.md",
     meta: ["Focus mode", "JetBrains Mono"],
@@ -194,22 +225,56 @@ export const yearInReview = {
   },
 };
 
-// formation — the unmistakable, tasteful tell (Section 3)
-export const formation = {
-  tag: "Formation",
-  heading: "Track the things that never make it onto a <em>to-do list.</em>",
-  lead: "Are you growing in patience? Is your prayer life deepening? Is what you believe finally moving from your head to your heart? These are the changes that matter most and are hardest to see day to day. Dayspring watches for them over time, gently — and shows you the movement.",
-  // the native mock: qualities tracked across a season, movement in words — never charts or streaks
+// Altar — slash artifacts woven back (prayer, sense, scripture, reminders)
+export const altar = {
+  tag: "Altar",
+  heading: "What you plant, <em>gathered.</em>",
+  lead: "Every `/pray`, `/sense`, and `/scripture` lands here — a quiet stream of what you've been carrying. Filter by type, search, open the entry it came from. From here, the pattern becomes visible.",
   mock: {
-    label: "Formation",
-    season: "This season",
-    qualities: [
-      { name: "Patience", movement: "showing up in smaller moments", dir: "up" },
-      { name: "Prayer", movement: "less asking, more listening", dir: "up" },
-      { name: "Fear", movement: "quieter than it was in spring", dir: "down" },
-      { name: "Head to heart", movement: "what you know is starting to land", dir: "up" },
+    subtitle: "Seeds planted in time",
+    lenses: ["All", "Prayer", "Sense", "Scripture"],
+    activeLens: "All",
+    months: [
+      {
+        label: "March 2026",
+        items: [
+          {
+            type: "prayer",
+            content: "Patience in the conversation with Marcus — that I'd listen before I defend.",
+            date: "Mar 14",
+            entry: "Hard conversation with Marcus",
+          },
+          {
+            type: "scripture",
+            content:
+              "Let every person be quick to hear, slow to speak, slow to anger…",
+            reference: "James 1:19",
+            date: "Mar 14",
+            entry: "Hard conversation with Marcus",
+          },
+          {
+            type: "sense",
+            content: "Stay — don't rush to fix it.",
+            date: "Mar 11",
+            entry: "What I keep circling back to",
+          },
+          {
+            type: "reminder",
+            content: "Return to this — a year from now",
+            date: "Mar 8",
+            entry: "Gratitude, even today",
+          },
+        ],
+      },
     ],
   },
+};
+
+// Scripture — canon heatmap (killer feature)
+export const scripture = {
+  tag: "Scripture",
+  heading: "Where your heart has been <em>leaning.</em>",
+  lead: "Not a reading plan — a map of every chapter you've actually returned to. Warmth where you've lived; quiet where you haven't. Scrub by season and watch the hard year look nothing like spring.",
 };
 
 // the Gain — not the Gap
@@ -242,5 +307,5 @@ export const privacy = {
 export const pricing = {
   tag: "Pricing",
   heading: "Try it for two weeks. <em>Stay for the mirror.</em>",
-  lead: "One premium plan — the editor and Looking back, every horizon. Start with 14 days free, then $59 a year or $8 a month.",
+  lead: "One premium plan — the editor, Scripture, Altar, and Looking back across every horizon. Start with 14 days free, then $59 a year or $8 a month.",
 };

@@ -2,10 +2,10 @@
 import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
 import SectionReveal from "../components/SectionReveal.astro";
-import AppMock from "../components/AppMock.astro";
 import SlashCommandsMock from "../components/SlashCommandsMock.astro";
 import LookingBackMock from "../components/LookingBackMock.astro";
-import FormationMock from "../components/FormationMock.astro";
+import AltarMock from "../components/AltarMock.astro";
+import ScriptureTeaser from "../components/ScriptureTeaser.astro";
 import PricingTiers from "../components/PricingTiers.astro";
 import { pricingHonest } from "../content/site";
 import {
@@ -14,7 +14,8 @@ import {
   slashCommands,
   editor,
   lookingBack,
-  formation,
+  altar,
+  scripture,
   gain,
   bringHistory,
   privacy,
@@ -24,7 +25,7 @@ import {
 
 <Base
   title="A journal built for spiritual growth"
-  description="A journal for spiritual growth — prayer, scripture, and reflection rooted in time-tested practice, carried across week, month, quarter, and year."
+  description="A journal for spiritual growth — plant scripture inline, see where your heart has been leaning across the whole Bible, and look back across week, month, quarter, and year."
   path="/"
 >
   <Hero
@@ -34,6 +35,8 @@ import {
     verse={hero.verse}
     primary={hero.primary}
     ghost={hero.ghost}
+    mockCaption={hero.mockCaption}
+    appMock={hero.appMock}
   />
 
   {/* problem line */}
@@ -65,19 +68,60 @@ import {
     </div>
   </section>
 
-  {/* the editor — live mock */}
-  <section class="showcase">
+  {/* altar — what slash commands plant, gathered back */}
+  <section class="altar-sec feature">
     <div class="wrap">
-      <SectionReveal class="head">
-        <div class="tag">{editor.tag}</div>
-        <h2 set:html={editor.heading} />
-        <p class="lead">{editor.lead}</p>
-      </SectionReveal>
-
-      <SectionReveal class="stage">
-        <AppMock />
-      </SectionReveal>
+      <div class="grid">
+        <SectionReveal>
+          <AltarMock
+            subtitle={altar.mock.subtitle}
+            lenses={altar.mock.lenses}
+            activeLens={altar.mock.activeLens}
+            months={altar.mock.months}
+          />
+        </SectionReveal>
+        <SectionReveal>
+          <div class="tag">{altar.tag}</div>
+          <h2 set:html={altar.heading} />
+          <p class="lead">{altar.lead}</p>
+        </SectionReveal>
+      </div>
     </div>
+  </section>
+
+  {/* scripture — same rhythm as altar: copy left, glimpse right */}
+  <section class="feature scripture-sec">
+    <div class="wrap">
+      <div class="grid">
+        <SectionReveal>
+          <div class="tag">{scripture.tag}</div>
+          <h2 set:html={scripture.heading} />
+          <p class="lead">{scripture.lead}</p>
+        </SectionReveal>
+        <SectionReveal>
+          <ScriptureTeaser />
+        </SectionReveal>
+      </div>
+    </div>
+  </section>
+
+  {/* the editor — craft (app shown in hero) */}
+  <section class="editor-craft">
+    <SectionReveal class="wrap">
+      <div class="tag">{editor.tag}</div>
+      <h2 set:html={editor.heading} />
+      <p class="lead">{editor.lead}</p>
+      <ul class="highlights">
+        {
+          editor.highlights.map((h) => (
+            <li>
+              <span class="h-title">{h.title}</span>
+              <span class="h-body">{h.body}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </SectionReveal>
   </section>
 
   {/* looking back — interactive horizon mock */}
@@ -90,27 +134,6 @@ import {
     <SectionReveal class="wrap lb-stage">
       <LookingBackMock horizons={lookingBack.horizons} />
     </SectionReveal>
-  </section>
-
-  {/* formation — the tasteful tell (mock left, text right) */}
-  <section class="feature formation-sec">
-    <div class="wrap">
-      <div class="grid">
-        <SectionReveal class="formation-visual">
-          <FormationMock
-            label={formation.mock.label}
-            season={formation.mock.season}
-            qualities={formation.mock.qualities}
-            comingSoon
-          />
-        </SectionReveal>
-        <SectionReveal>
-          <div class="tag">{formation.tag}</div>
-          <h2 set:html={formation.heading} />
-          <p class="lead">{formation.lead}</p>
-        </SectionReveal>
-      </div>
-    </div>
   </section>
 
   {/* the Gain — not the Gap */}
@@ -252,15 +275,12 @@ import {
     }
   }
 
-  /* ---- showcase (the editor) ---- */
-  .showcase {
-    padding: 30px 0 130px;
-  }
-  .showcase :global(.head) {
+  /* ---- editor craft (details only; mock is in hero) ---- */
+  .editor-craft {
+    padding: 0 0 100px;
     text-align: center;
-    margin-bottom: 56px;
   }
-  .showcase .tag {
+  .editor-craft .tag {
     font-family: var(--font-mono);
     font-size: 12px;
     letter-spacing: 2.5px;
@@ -268,48 +288,58 @@ import {
     color: var(--dawn-1);
     margin-bottom: 18px;
   }
-  .showcase h2 {
+  .editor-craft h2 {
     font-family: var(--font-display);
     font-weight: 300;
-    font-size: clamp(34px, 5vw, 58px);
-    letter-spacing: -1px;
-    line-height: 1.04;
-    margin-bottom: 18px;
+    font-size: clamp(30px, 4.5vw, 48px);
+    letter-spacing: -0.5px;
+    line-height: 1.08;
+    margin-bottom: 14px;
   }
-  .showcase h2 :global(em) {
+  .editor-craft h2 :global(em) {
     font-style: italic;
     color: var(--gold);
   }
-  .showcase .lead {
-    font-size: 18px;
+  .editor-craft .lead {
+    font-size: 17px;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 40ch;
+    margin: 0 auto 40px;
+  }
+  .highlights {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    text-align: left;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .highlights li {
+    padding: 22px 24px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(18, 19, 25, 0.4);
+  }
+  .h-title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 17px;
+    color: var(--paper);
+    margin-bottom: 8px;
+  }
+  .h-body {
+    font-size: 14.5px;
+    line-height: 1.55;
     color: var(--paper-dim);
     font-weight: 300;
-    max-width: 48ch;
-    margin: 0 auto;
   }
-  .showcase :global(.stage) {
-    position: relative;
-    max-width: 860px;
-    margin: 0 auto;
-    padding-bottom: 30px;
-  }
-  /* the dawn backlight behind the editor stage */
-  .showcase :global(.stage)::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: -8%;
-    transform: translateX(-50%);
-    width: 90%;
-    height: 95%;
-    border-radius: 50%;
-    z-index: 0;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(243, 189, 118, 0.2),
-      transparent 65%
-    );
-    filter: blur(22px);
+  @media (max-width: 820px) {
+    .highlights {
+      grid-template-columns: 1fr;
+      max-width: 420px;
+    }
   }
   /* ---- looking back (centered, interactive mock) ---- */
   .looking-back-sec {
@@ -420,15 +450,16 @@ import {
     color: var(--dawn-1);
   }
 
-  /* ---- formation (mock left, text right) ---- */
-  .formation-sec {
-    padding: 0 0 130px;
+  /* scripture column gets more room for the heatmap */
+  .scripture-sec .grid {
+    grid-template-columns: 0.88fr 1.12fr;
   }
-  /* on mobile, lead with the text, then the visual */
-  @media (max-width: 820px) {
-    .formation-sec .grid > :global(.formation-visual) {
-      order: 2;
-    }
+
+  /* tighter stack under slash — altar then scripture */
+  .altar-sec,
+  .scripture-sec {
+    padding-top: 0;
+    padding-bottom: 100px;
   }
 
   /* ---- bring your history / import ---- */

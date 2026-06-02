@@ -1,12 +1,12 @@
 // ============================================================
-// /features — editor (slash + beauty), looking back, formation.
-// First Light guardrails: becoming/formation/seasons/the arc/carried.
+// /features — editor, slash, altar, scripture, looking back.
+// First Light guardrails: becoming/seasons/the arc/carried.
 // ============================================================
 
 export const featuresIntro = {
   eyebrow: "Features",
-  heading: "Write. Capture. <em>Look back.</em>",
-  lead: "A journal engineered for spiritual growth. Commands that meet you mid-sentence. Reflections that read like a letter — not a dashboard.",
+  heading: "Write. Plant scripture. <em>See the pattern.</em>",
+  lead: "A journal for the long walk — slash commands in the sentence, an Altar that gathers what you plant, a Scripture view that shows where your heart has been leaning, and reflections that read like a letter.",
 };
 
 // each deep dive renders with a live app-element mock (not a screenshot)
@@ -33,26 +33,64 @@ export const deepDives = [
         title: "Nothing between thought and word",
         body: "Markdown-first, with no perceptible input lag and continuous autosave. Keyboard-first throughout. You'll never lose a keystroke, and you'll never wait for one.",
       },
-      {
-        title: "Mobile is its own thing",
-        body: "Not a shrunk desktop — a thumb-reachable, keyboard-aware page for writing on the move, with the same quiet it has on your Mac.",
-      },
     ],
     mock: "slash",
+  },
+  {
+    id: "altar",
+    tag: "Altar",
+    heading: "What you plant, <em>gathered.</em>",
+    lead: "Slash commands plant seeds in the flow of writing. The Altar is where they live afterward — searchable, filterable, tied back to the entry they came from.",
+    points: [
+      {
+        title: "Seeds planted in time",
+        body: "Prayers, impressions, and scripture you marked inline stream here by month — not buried in old entries you won't think to reopen.",
+      },
+      {
+        title: "Filter without losing the thread",
+        body: "Lens by prayer, sense, or scripture. Search when you half-remember a phrase. Open the entry when you need the full context.",
+      },
+      {
+        title: "The raw material for Scripture",
+        body: "Every `/scripture` reference you keep feeds the canon map — the Altar is the stream; Scripture is the shape it makes over years.",
+      },
+    ],
+    mock: "altar",
+  },
+  {
+    id: "scripture",
+    tag: "Scripture",
+    heading: "Where your heart has been <em>leaning.</em>",
+    lead: "The feature we kept reaching for and never found. Not coverage — returns. The whole Bible, lit by your journal.",
+    points: [
+      {
+        title: "Warmth where you've lived",
+        body: "Every chapter you've touched, glowing by how often you came back. Quiet where you haven't. No streak. No shame.",
+      },
+      {
+        title: "Seasons change the picture",
+        body: "Scrub to the hard year — Psalms and Lamentations. Spring — John and Philippians. The map remembers what you couldn't see yet.",
+      },
+      {
+        title: "Your words, still there",
+        body: "Tap a book. Read what you wrote the night that verse found you.",
+      },
+    ],
+    mock: "scripture",
   },
   {
     id: "looking-back",
     tag: "Looking back",
     heading: "See who you're <em>becoming.</em>",
-    lead: "What you plant with `/` compounds over time. Four horizons — week, month, quarter, year — each reading the one beneath it. Your own words, returned in prose.",
+    lead: "Scripture shows where your heart leaned; Looking back shows who you're becoming. Four horizons — week, month, quarter, year — each reading the one beneath it.",
     points: [
       {
         title: "It compounds, the way memory does",
-        body: "Your week reads your days. Your month reads your weeks. Your year reads your months. By the time the year turns, you're handed something almost no one keeps: an honest mirror of who you were, and who you've become.",
+        body: "Your week reads your days. Your month reads your weeks. Your year reads your months. By the time the year turns, you're handed something almost no one keeps: an honest mirror.",
       },
       {
         title: "Lenses you choose",
-        body: "Decide what Dayspring reflects on — the Gain, gratitude, formation, work, family. The reflection is shaped by what you're actually paying attention to this season.",
+        body: "Decide what Dayspring reflects on — the Gain, gratitude, work, family. The reflection is shaped by what you're actually paying attention to this season.",
       },
       {
         title: "Three wins, every week",
@@ -60,26 +98,5 @@ export const deepDives = [
       },
     ],
     mock: "letter",
-  },
-  {
-    id: "formation",
-    tag: "Formation",
-    heading: "Track the things that never make it onto a <em>to-do list.</em>",
-    lead: "Are you growing in patience? Is your prayer life deepening? Is what you believe finally moving from your head to your heart? These are the changes that matter most and are the hardest to see day to day.",
-    points: [
-      {
-        title: "Measured backward, never against an ideal",
-        body: "Dayspring won't hold your life up against the person you think you should already be — the surest way to lose heart. It measures you against who you actually were, and shows you how far you've been carried.",
-      },
-      {
-        title: "Movement, in words — not metrics",
-        body: "No streaks, no scores, no cartoon badges. Just a quiet account of where something is shifting, the way a friend who's known you a long time would tell you.",
-      },
-      {
-        title: "Only if you ask for it",
-        body: "Formation is a lens you turn on. Leave it off and Dayspring is simply a beautiful place to write. Turn it on and it watches, gently, over seasons.",
-      },
-    ],
-    mock: "formation",
   },
 ];
