@@ -9,7 +9,7 @@ export const site = {
   // these are the global fallbacks / brand-level strings.
   tagline: "A journal built for spiritual growth.",
   description:
-    "A journal for spiritual growth — plant scripture inline, see where your heart has been leaning across the whole Bible, and look back across week, month, quarter, and year.",
+    "A journal for spiritual growth — plant scripture inline, draw near through contemplative practice forms, see where your heart has been leaning across the whole Bible, and look back across week, month, quarter, and year.",
   url: "https://dayspring.app",
   verse: {
     text: "…the Dayspring from on high has visited us",
@@ -57,7 +57,7 @@ export const pricingTiers = [
     unit: " / year",
     note: "14-day free trial · about $4.92 / month",
     desc:
-      "The full product — editor, Scripture view, Altar, and Looking back across every horizon. The longer you write, the more the map fills in.",
+      "The full product — the editor, the Lamp, and the Ascent across every horizon. The longer you write, the more the map fills in.",
     cta: { label: "Start free trial", href: "#", style: "solid" },
     featured: true,
     badge: "Most chosen",

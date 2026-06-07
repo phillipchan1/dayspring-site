@@ -4,14 +4,15 @@ import SectionReveal from "../components/SectionReveal.astro";
 import SlashCommandsMock from "../components/SlashCommandsMock.astro";
 import AltarMock from "../components/AltarMock.astro";
 import ScriptureTeaser from "../components/ScriptureTeaser.astro";
+import PracticeMock from "../components/PracticeMock.astro";
 import LookingBackMock from "../components/LookingBackMock.astro";
 import { featuresIntro, deepDives } from "../content/features";
-import { slashCommands, lookingBack, altar } from "../content/home";
+import { slashCommands, lookingBack, altar, practices } from "../content/home";
 ---
 
 <Base
   title="Features"
-  description="Plant scripture inline, see where your heart has been leaning across the whole Bible, gather prayers on the Altar, and look back across week, month, quarter, and year."
+  description="Plant scripture inline, draw near through contemplative practice forms, see where your heart has been leaning across the whole Bible, gather prayers on the Altar, and look back across week, month, quarter, and year."
   path="/features"
 >
   <section class="f-intro">
@@ -48,15 +49,25 @@ import { slashCommands, lookingBack, altar } from "../content/home";
                   editorLines={slashCommands.editorLines}
                 />
               )}
+              {dive.mock === "practices" && (
+                <PracticeMock
+                  filters={practices.filters}
+                  cards={practices.cards}
+                  active={practices.active}
+                  note={practices.note}
+                />
+              )}
               {dive.mock === "letter" && (
-                <LookingBackMock horizons={lookingBack.horizons} />
+                <LookingBackMock
+                  horizons={lookingBack.horizons}
+                  lenses={lookingBack.lenses}
+                />
               )}
               {dive.mock === "altar" && (
                 <AltarMock
                   subtitle={altar.mock.subtitle}
-                  lenses={altar.mock.lenses}
-                  activeLens={altar.mock.activeLens}
-                  months={altar.mock.months}
+                  cairns={altar.mock.cairns}
+                  note={altar.mock.note}
                 />
               )}
               {dive.mock === "scripture" && <ScriptureTeaser />}

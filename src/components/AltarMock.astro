@@ -1,28 +1,24 @@
 ---
-// AltarMock — stream of spiritual artifacts planted via slash commands.
-interface Item {
-  type: "prayer" | "sense" | "scripture" | "reminder";
-  content: string;
-  reference?: string;
-  date: string;
-  entry?: string;
-}
-interface Month {
+// AltarMock — a field of cairns. Each recurring prayer is a heap of stones
+// whose height is how often you've returned; a lit capstone means God met you
+// there. A place of remembrance, not a queue of requests.
+interface Cairn {
   label: string;
-  items: Item[];
+  stones: number;
+  lit?: boolean;
+  movement?: string;
+  span?: string;
 }
 interface Props {
   subtitle?: string;
-  lenses?: string[];
-  activeLens?: string;
-  months: Month[];
+  cairns: Cairn[];
+  note?: string;
   class?: string;
 }
 const {
-  subtitle = "Seeds planted in time",
-  lenses = ["All", "Prayer", "Sense", "Scripture"],
-  activeLens = "All",
-  months,
+  subtitle = "Thus far the Lord has helped",
+  cairns,
+  note,
   class: className = "",
 } = Astro.props;
 ---
@@ -30,70 +26,46 @@ const {
 <div class:list={["altar-mock", className]}>
   <header class="altar-head">
     <h3 class="altar-title">Altar</h3>
-    <p class="altar-sub">{subtitle}</p>
+    <p class="altar-sub mono">{subtitle}</p>
   </header>
 
-  <div class="altar-toolbar">
-    <div class="altar-search" aria-hidden="true">Search…</div>
-    <div class="altar-lenses" role="group" aria-label="Filter by type">
-      {
-        lenses.map((l) => (
-          <span class:list={["lens", { active: l === activeLens }]}>{l}</span>
-        ))
-      }
-    </div>
+  <div class="altar-field" role="img" aria-label="A field of prayer cairns">
+    {
+      cairns.map((c) => (
+        <div class:list={["cairn", { lit: c.lit }]}>
+          <div class="stones">
+            {Array.from({ length: c.stones }).map((_, i) => (
+              <span
+                class:list={[
+                  "stone",
+                  { cap: c.lit && i === c.stones - 1 },
+                ]}
+              />
+            ))}
+          </div>
+          <p class="cairn-label">{c.label}</p>
+          {c.movement && <p class="cairn-move mono">{c.movement}</p>}
+          {c.span && <p class="cairn-span mono">{c.span}</p>}
+        </div>
+      ))
+    }
   </div>
 
-  {
-    months.map((month) => (
-      <section class="altar-month">
-        <h4 class="month-label">{month.label}</h4>
-        <ul class="altar-list">
-          {
-            month.items.map((item) => (
-              <li
-                class:list={[
-                  "altar-item",
-                  { scripture: item.type === "scripture" },
-                ]}
-              >
-                {item.type !== "scripture" && (
-                  <span class="item-type" data-type={item.type}>
-                    {item.type}
-                  </span>
-                )}
-                <p class="item-content">{item.content}</p>
-                {item.reference && (
-                  <p class="item-ref mono">{item.reference}</p>
-                )}
-                <div class="item-meta">
-                  <time>{item.date}</time>
-                  {item.entry && (
-                    <span class="open-entry">→ open entry</span>
-                  )}
-                </div>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-    ))
-  }
+  {note && <p class="altar-note">{note}</p>}
 </div>
 
 <style>
   .altar-mock {
     border-radius: 18px;
-    overflow: hidden;
-    background: linear-gradient(180deg, var(--ink-3) 0%, var(--ink-2) 55%);
+    background: linear-gradient(180deg, var(--ink-3) 0%, var(--ink-2) 70%);
     border: 1px solid var(--border);
-    padding: 28px 28px 32px;
-    max-height: 520px;
-    overflow-y: auto;
+    padding: 24px 24px 26px;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .altar-head {
-    margin-bottom: 20px;
+    margin-bottom: 26px;
   }
   .altar-title {
     font-family: var(--font-display);
@@ -104,112 +76,107 @@ const {
     margin: 0;
   }
   .altar-sub {
-    margin: 6px 0 0;
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-
-  .altar-toolbar {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 22px;
-  }
-  .altar-search {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--muted);
-    border: 1px solid var(--border);
-    border-radius: 9px;
-    padding: 9px 12px;
-  }
-  .altar-lenses {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .lens {
-    font-family: var(--font-mono);
+    margin: 7px 0 0;
     font-size: 11px;
-    letter-spacing: 0.3px;
-    padding: 6px 12px;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-  .lens.active {
-    color: var(--paper);
-    border-color: rgba(243, 189, 118, 0.35);
-    background: rgba(243, 189, 118, 0.08);
-  }
-
-  .altar-month {
-    margin-bottom: 24px;
-  }
-  .altar-month:last-child {
-    margin-bottom: 0;
-  }
-  .month-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.4px;
     text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 12px;
+    color: var(--dawn-1);
   }
 
-  .altar-list {
-    list-style: none;
+  /* the field — cairns sit on a shared baseline */
+  .altar-field {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 168px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cairn {
+    flex: 1 1 0;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
   }
-  .altar-item {
-    padding: 14px 16px 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: rgba(12, 13, 17, 0.35);
-  }
-  .altar-item.scripture {
-    border-left: 2px solid rgba(243, 189, 118, 0.4);
-  }
-  .item-type {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.8px;
-    text-transform: lowercase;
-    color: var(--dawn-1);
-    margin-bottom: 6px;
-  }
-  .item-content {
-    font-size: 15px;
-    line-height: 1.55;
-    color: var(--paper);
-    font-weight: 300;
-    margin-bottom: 6px;
-  }
-  .altar-item.scripture .item-content {
-    font-style: italic;
-    color: var(--paper-dim);
-  }
-  .item-ref {
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--dawn-1);
+  /* stack stones bottom-up: widest at the base, tapering toward the top */
+  .stones {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 3px;
     margin-bottom: 8px;
   }
-  .item-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    color: var(--muted);
+  .stone {
+    display: block;
+    width: 30px;
+    height: 9px;
+    border-radius: 5px;
+    background: rgba(214, 211, 209, 0.16);
+    border: 1px solid rgba(214, 211, 209, 0.1);
   }
-  .open-entry {
+  /* gentle taper — upper stones narrow slightly */
+  .stone:nth-child(2) {
+    width: 27px;
+  }
+  .stone:nth-child(3) {
+    width: 25px;
+  }
+  .stone:nth-child(4) {
+    width: 23px;
+  }
+  .stone:nth-child(n + 5) {
+    width: 21px;
+  }
+  /* the capstone — His meeting you */
+  .stone.cap {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow:
+      0 0 10px rgba(243, 189, 118, 0.6),
+      0 0 22px rgba(243, 189, 118, 0.35);
+  }
+
+  .cairn-label {
+    font-size: 12.5px;
     color: var(--paper-dim);
+    font-weight: 300;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .cairn-move {
+    font-size: 9.5px;
+    letter-spacing: 0.4px;
+    color: var(--dawn-1);
+    text-align: center;
+  }
+  .cairn-span {
+    font-size: 9px;
+    letter-spacing: 0.3px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .altar-note {
+    margin: 18px 0 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 520px) {
+    .stone {
+      width: 24px;
+    }
+    .cairn-move,
+    .cairn-span {
+      display: none;
+    }
   }
 </style>

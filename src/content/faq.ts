@@ -18,11 +18,11 @@ export const faqs = [
   },
   {
     q: "Is this just a Bible app?",
-    a: "No. Dayspring is a journal first — a beautiful page to write on, and a long look back over time. No verse-of-the-day, no reading plan, no streak. When you use <strong>/scripture</strong>, passages you keep build a canon map: which chapters you've returned to, in which seasons — not how much you've \"finished.\" See <a href=\"/features#scripture\">Scripture</a>.",
+    a: "No. Dayspring is a journal first — a beautiful page to write on, and a long look back over time. No verse-of-the-day, no reading plan, no streak. When you use <strong>/scripture</strong>, passages you keep build a canon map: which chapters you've returned to, in which seasons — not how much you've \"finished.\" See <a href=\"/features#scripture\">the Lamp</a>.",
   },
   {
     q: "What are slash commands?",
-    a: "Type <strong>/</strong> in any entry to open four commands: <strong>/scripture</strong> for ESV passages (and every reference feeds your <a href=\"/features#scripture\">Scripture</a> map), <strong>/pray</strong> to log a prayer, <strong>/sense</strong> for a word or impression, and <strong>/remind</strong> to return later. Each opens an inline panel — you never leave the page.",
+    a: "Type <strong>/</strong> in any entry for five commands: <strong>/scripture</strong> for ESV passages (and every reference feeds your <a href=\"/features#scripture\">Lamp</a>), <strong>/pray</strong> to log a prayer, <strong>/sense</strong> for a word or impression, <strong>/practice</strong> to open the contemplative forms library, and <strong>/image</strong> for an inline photo. Each opens an inline panel — you never leave the page. See <a href=\"/features#practices\">the Practices</a>.",
   },
   {
     q: "Do I have to be a Christian to use it?",
@@ -34,7 +34,7 @@ export const faqs = [
   },
   {
     q: "Which platforms is it on?",
-    a: "Mac and iPhone — a real desktop app and a real mobile one, not a website in a wrapper. Each is built for how you actually write on that device: deep margins and full-screen focus on the Mac, thumb-reachable and keyboard-aware on iPhone.",
+    a: "Mac and the web today — a real macOS app with deep margins and full-screen focus, plus the full journal in any browser, synced across both. An iPhone app is coming next; for now the web app is built to be thumb-reachable and keyboard-aware on your phone, so you can write anywhere in the meantime.",
   },
   {
     q: "Can I import from Day One?",
@@ -46,6 +46,6 @@ export const faqs = [
   },
   {
     q: "What does it cost?",
-    a: "One premium plan — the full editor, Scripture view, Altar, and Looking back across every horizon. Start with a <strong>14-day free trial</strong>, then <strong>$59 a year</strong> (about $4.92 a month) or <strong>$8 month-to-month</strong> if you'd rather go slow. The longer you write, the more the map fills in.",
+    a: "One premium plan — the full editor, the Lamp, and the Ascent across every horizon (with the Altar coming soon). Start with a <strong>14-day free trial</strong>, then <strong>$59 a year</strong> (about $4.92 a month) or <strong>$8 month-to-month</strong> if you'd rather go slow. The longer you write, the more the map fills in.",
   },
 ];

@@ -14,8 +14,14 @@ import {
 interface Props {
   class?: string;
   defaultSeason?: ScriptureSeasonId;
+  /** Cropped, non-interactive marketing glimpse — not the full Lamp UI. */
+  preview?: boolean;
 }
-const { class: className = "", defaultSeason = "all" } = Astro.props;
+const {
+  class: className = "",
+  defaultSeason = "all",
+  preview = false,
+} = Astro.props;
 
 function renderSlice(seasonId: ScriptureSeasonId) {
   const ot = scriptureOT
@@ -40,10 +46,11 @@ const layers = scriptureSeasons.map((s) => ({
 ---
 
 <div
-  class:list={["scripture-teaser", className]}
-  data-scripture-teaser
+  class:list={["scripture-teaser", className, { preview }]}
+  data-scripture-teaser={!preview ? true : undefined}
   data-default-season={defaultSeason}
 >
+  {!preview && (
   <div class="st-toolbar">
     <div class="seasons">
       <span class="seasons-lbl mono">Season</span>
@@ -63,6 +70,7 @@ const layers = scriptureSeasons.map((s) => ({
       {scriptureSeasons.find((s) => s.id === defaultSeason)?.note ?? ""}
     </p>
   </div>
+  )}
 
   <div class="st-canon-pane">
     {
@@ -87,7 +95,7 @@ const layers = scriptureSeasons.map((s) => ({
                   <div class="bname">{book[0]}</div>
                   <div
                     class="cells"
-                    style={`grid-template-columns: repeat(${cols}, 8px)`}
+                    style={`grid-template-columns: repeat(${cols}, 6px)`}
                   >
                     {
                       cells.map((cell) => (
@@ -113,7 +121,7 @@ const layers = scriptureSeasons.map((s) => ({
                   <div class="bname">{book[0]}</div>
                   <div
                     class="cells"
-                    style={`grid-template-columns: repeat(${cols}, 8px)`}
+                    style={`grid-template-columns: repeat(${cols}, 6px)`}
                   >
                     {
                       cells.map((cell) => (
@@ -157,8 +165,11 @@ const layers = scriptureSeasons.map((s) => ({
     overflow: hidden;
     background: linear-gradient(165deg, var(--ink-3), var(--ink-2));
     border: 1px solid var(--border);
-    min-height: 420px;
-    padding: 20px 22px 18px;
+    max-height: 75vh;
+    max-width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 18px 20px 16px;
   }
 
   .st-toolbar {
@@ -251,13 +262,13 @@ const layers = scriptureSeasons.map((s) => ({
   .canon {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
   }
 
   .book {
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 9px 10px 10px;
+    border-radius: 7px;
+    padding: 7px 8px 8px;
     background: rgba(255, 255, 255, 0.012);
   }
   .book.lit {
@@ -273,20 +284,20 @@ const layers = scriptureSeasons.map((s) => ({
 
   .bname {
     font-family: var(--font-body);
-    font-size: 12px;
+    font-size: 11px;
     color: var(--paper-dim);
-    margin-bottom: 7px;
+    margin-bottom: 5px;
     white-space: nowrap;
   }
 
   .cells {
     display: grid;
-    gap: 3px;
+    gap: 2px;
   }
   .cell {
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
+    width: 6px;
+    height: 6px;
+    border-radius: 1.5px;
   }
 
   .st-foot {
@@ -321,14 +332,35 @@ const layers = scriptureSeasons.map((s) => ({
     margin-left: 7px;
   }
 
+  /* marketing preview — cropped glimpse, not the full module */
+  .scripture-teaser.preview {
+    max-height: 260px;
+    overflow: hidden;
+    padding: 16px 18px 14px;
+  }
+  .scripture-teaser.preview .st-canon-pane {
+    mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  }
+  .scripture-teaser.preview .st-foot {
+    margin-top: 10px;
+    padding-top: 12px;
+  }
+
   @media (max-width: 720px) {
     .scripture-teaser {
-      min-height: 380px;
-      padding: 16px 16px 14px;
+      max-height: 60vh;
+      padding: 14px 14px 12px;
+    }
+    .scripture-teaser.preview {
+      max-height: 240px;
+    }
+    .canon {
+      gap: 5px;
     }
     .cell {
-      width: 7px;
-      height: 7px;
+      width: 5px;
+      height: 5px;
     }
   }
 </style>
