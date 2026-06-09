@@ -131,7 +131,7 @@ const defaultId = horizons[0]?.id ?? "week";
     gap: 6px;
     padding: 4px;
     border-radius: 100px;
-    background: rgba(12, 13, 17, 0.55);
+    background: var(--surface-2);
     border: 1px solid var(--border);
     margin-bottom: 18px;
     position: relative;
@@ -155,8 +155,8 @@ const defaultId = horizons[0]?.id ?? "week";
   }
   .pill[aria-pressed="true"] {
     color: var(--paper);
-    background: rgba(236, 231, 221, 0.1);
-    border-color: rgba(236, 231, 221, 0.14);
+    background: var(--surface);
+    border-color: var(--border-strong);
   }
 
   /* persistent attention row */

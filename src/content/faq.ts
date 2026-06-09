@@ -1,51 +1,64 @@
 // ============================================================
-// /faq — carries the trust load. Honest answers, written to the
-// First Light guardrails. Privacy answers must match the Privacy
-// page exactly (no overclaiming). Faith signal stays tasteful.
-// `a` fields may contain inline <em> and <a> markup.
+// /faq — an OBJECTION-led FAQ. Each question is a real hesitation a
+// potential buyer feels; each answer overcomes it honestly (reassure,
+// differentiate, reduce risk) — never hype. First Light guardrails.
+// Privacy answers must match the Privacy page exactly (no overclaiming).
+// `a` fields may contain inline <em>, <strong>, and <a> markup.
 // ============================================================
 
 export const faqIntro = {
   eyebrow: "FAQ",
-  heading: "The honest answers.",
-  lead: "The questions worth asking before you trust a page with the things you don't say out loud.",
+  heading: "Every reason to hesitate, <em>answered.</em>",
+  lead: "The real reasons you might hold back before trusting a page with the things you don't say out loud — and honest answers, not a sales pitch.",
 };
 
 export const faqs = [
   {
-    q: "Can you read my entries?",
-    a: "Honestly? We hold the key — so technically, we could read your entries. We never do, and we never will: your words are never sold, never used to train AI, never read by us. The whole story is on the <a href=\"/privacy\">Privacy page</a>.",
+    q: "Can I trust you with the most private things I write?",
+    a: "This is the question that matters most, so here's the whole truth: we hold the key, so technically we <em>could</em> read your entries. We never do, and we never will — your words are never sold, never used to train AI, never read by us. We won't claim we <em>can't</em>, because that wouldn't be true and you'd be right to walk away from anyone who said it. The full, plain story is on the <a href=\"/privacy\">Privacy page</a>.",
   },
   {
-    q: "Is this just a Bible app?",
-    a: "No. Dayspring is a journal first — a beautiful page to write on, and a long look back over time. No verse-of-the-day, no reading plan, no streak. When you use <strong>/scripture</strong>, passages you keep build a canon map: which chapters you've returned to, in which seasons — not how much you've \"finished.\" See <a href=\"/features#scripture\">the Lamp</a>.",
+    q: "Isn't this just another cheesy Christian app?",
+    a: "We built it because we couldn't stand those either. No mascot, no verse-of-the-day, no habit streaks, no shouting. Restraint is the whole design — a beautiful page that happens to be made for the inner life. A believer recognizes their own; everyone else just sees a gorgeous journal.",
   },
   {
-    q: "What are slash commands?",
-    a: "Type <strong>/</strong> in any entry for five commands: <strong>/scripture</strong> for ESV passages (and every reference feeds your <a href=\"/features#scripture\">Lamp</a>), <strong>/pray</strong> to log a prayer, <strong>/sense</strong> for a word or impression, <strong>/practice</strong> to open the contemplative forms library, and <strong>/image</strong> for an inline photo. Each opens an inline panel — you never leave the page. See <a href=\"/features#practices\">the Practices</a>.",
+    q: "I already journal in Day One, Notes, or on paper. Why switch?",
+    a: "You don't start over — import from <strong>Day One, Diarly, or Markdown</strong> (photos and original dates intact), parsed privately on your own device. What you can't get anywhere else is the long view: the <a href=\"/features#scripture\">Lamp</a>, the <a href=\"/features#looking-back\">Ascent</a>, and the <a href=\"/features#altar\">Altar</a> turn years of writing into something you can finally <em>see</em>. And because you bring your history, that look-back is ready on day one.",
   },
   {
-    q: "Do I have to be a Christian to use it?",
-    a: "Not at all. The long view works for anyone who wants to see their life as more than today. The faith-aware reflections are a lens you choose — not a default you have to opt out of.",
+    q: "What if I don't keep it up?",
+    a: "There's no streak to break, no badge to chase, no guilt if you miss a week — that pressure is exactly what we left out. Dayspring is built for the long walk, not the daily grind. Write when you have something to say; the Lamp and the Ascent quietly gather it whenever you do.",
   },
   {
-    q: "What happens after a year?",
-    a: "You get the mirror. Dayspring reflects with you weekly and monthly all year, and when the year turns it reads the whole arc back — who you were twelve months ago, and who you've become. Then it keeps going; every season adds to the picture. Reflections look across one year at a time, on purpose — it keeps the writing honest and the experience fast.",
+    q: "I'm not a good writer — I never know where to start.",
+    a: "You don't have to be. Type <strong>/</strong> for a verse, a prayer, or a <strong>/ritual</strong> — an ancient form like the Daily Examen or Lectio Divina that gives you somewhere to begin without telling you what to say. The blank page is the thing we worked hardest to solve.",
   },
   {
-    q: "Which platforms is it on?",
-    a: "Mac and the web today — a real macOS app with deep margins and full-screen focus, plus the full journal in any browser, synced across both. An iPhone app is coming next; for now the web app is built to be thumb-reachable and keyboard-aware on your phone, so you can write anywhere in the meantime.",
+    q: "Will it preach at me? Do I have to be religious?",
+    a: "No on both. The faith-aware reflections are a lens you choose, never a default you opt out of — no daily verse, no devotional pop-ups. The long view works for anyone who wants to see their life as more than today; the deeper it goes for believers is simply there when you want it.",
   },
   {
-    q: "Can I import from Day One?",
-    a: "Yes — Day One and Diarly both. Export your journal, upload the file, and Dayspring parses it <em>on your own device</em> and writes it straight into your account. It shows you a preview before it saves a single word, and it keeps every original date intact. The best part: with years of history in hand, your first look-back is ready on day one — not a year from now.",
+    q: "Is this an AI chatbot that's going to analyze my soul?",
+    a: "No — it's a journal, not a therapist-bot, and we deliberately stay out of that lane. Reflection is occasional and gentle: it arranges your <em>own</em> words and asks honest questions, never diagnoses or scores you. It runs under a zero-retention agreement — your entries are read, reflected on, and gone, never stored on their end, never used to train any model.",
   },
   {
-    q: "Does the AI train on my writing?",
-    a: "No. Reflection runs through our AI provider under a zero-retention agreement — your entries aren't stored on their end and are never used to train any model. They're read, reflected on, and gone.",
+    q: "It's only on Mac and the web — what about my phone?",
+    a: "A real macOS app with deep margins and full-screen focus, plus the full journal in any browser, synced across both. The web app is built thumb-reachable and keyboard-aware so you can write on your phone today; a native iPhone app is what we're building next.",
   },
   {
-    q: "What does it cost?",
-    a: "One premium plan — the full editor, the Lamp, and the Ascent across every horizon (with the Altar coming soon). Start with a <strong>14-day free trial</strong>, then <strong>$59 a year</strong> (about $4.92 a month) or <strong>$8 month-to-month</strong> if you'd rather go slow. The longer you write, the more the map fills in.",
+    q: "Is it really worth $59 a year?",
+    a: "That's the whole product — the editor, every slash command, the Lamp, the Ascent across every horizon, and the Altar (<a href=\"/features#everything\">50+ details in all</a>). It's about $4.92 a month — less than the leading AI journal, and the only one that reflects with you across years. There's also <strong>$8 month-to-month</strong> if you'd rather go slow.",
+  },
+  {
+    q: "What if I try it and it's just not for me?",
+    a: "Start with <strong>14 days free</strong> — see whether it's a page you actually want to open. Cancel anytime, and go month-to-month if you'd rather not commit to a year. Nothing about leaving is designed to trap you.",
+  },
+  {
+    q: "What happens to my journal if Dayspring ever goes away?",
+    a: "Your words are yours — fully exportable in a portable format, anytime, no lock-in. You brought your history in; you can always carry it back out. We'd rather earn your staying than fence you in.",
+  },
+  {
+    q: "Will it actually show me anything, or is it just storage?",
+    a: "Showing you something <em>is</em> the point. Dayspring reflects with you weekly and monthly, and when the year turns it reads the whole arc back — who you were twelve months ago, and who you've become. The <a href=\"/features#scripture\">Lamp</a> shows where your heart has been leaning; the <a href=\"/features#altar\">Altar</a> remembers where God met you. A day is too small to hold a pattern. A year is a mirror.",
   },
 ];

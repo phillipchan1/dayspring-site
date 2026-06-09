@@ -33,6 +33,8 @@ interface Props {
     status: string; // e.g. "112 words · saved just now · synced"
     title: string; // gold entry title
     body: string[]; // paragraphs
+    /** Inline /scripture insert — shows the spiritual life in the sentence. */
+    scripture?: { ref: string; text: string };
   };
   /** In-editor slash palette (hero differentiator). */
   slash?: SlashState;
@@ -42,9 +44,9 @@ interface Props {
 const defaultSlashCommands: SlashCommand[] = [
   { id: "scripture", label: "/scripture", hint: "Find relevant Bible passages" },
   { id: "pray", label: "/pray", hint: "Log a prayer" },
-  { id: "sense", label: "/sense", hint: "Name what you're sensing" },
-  { id: "practice", label: "/practice", hint: "Forms for the inner life" },
-  { id: "image", label: "/image", hint: "Add a photo" },
+  { id: "sense", label: "/sense", hint: "Record a word or impression" },
+  { id: "ritual", label: "/ritual", hint: "Rituals for the inner life" },
+  { id: "image", label: "/image", hint: "Add a photo to this entry" },
 ];
 
 const {
@@ -81,36 +83,62 @@ const slashActive = slash?.activeId ?? slashCommands[0]?.id;
   <div class="traffic" aria-hidden="true"><i></i><i></i><i></i></div>
 
   <div class="appw-main">
-    {/* far-left icon rail */}
+    {/* nav rail — Write / Return, matching the app */}
     <nav class="rail" aria-hidden="true">
-      <span class="rail-logo">
-        <Mark size={20} />
-      </span>
-      <span class="rail-item active">
-        <svg viewBox="0 0 24 24" width="17" height="17"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
-        <em>Entries</em>
-      </span>
-      <span class="rail-item">
-        <svg viewBox="0 0 24 24" width="17" height="17"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
-        <em>Ascent</em>
-      </span>
-      <span class="rail-item">
-        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 5.5A2.5 2.5 0 0 1 5.5 3H11v16H5.5A2.5 2.5 0 0 0 3 21.5z" /><path d="M21 5.5A2.5 2.5 0 0 0 18.5 3H13v16h5.5a2.5 2.5 0 0 1 2.5 2.5z" />
-        </svg>
-        <em>Scripture</em>
-      </span>
-      <span class="rail-item settings">
-        <svg viewBox="0 0 24 24" width="17" height="17"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M8 14v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
-        <em>Settings</em>
-      </span>
+      <div class="rail-brand">
+        <Mark size={18} />
+        <span>{brand}</span>
+      </div>
+
+      <div class="rail-group">
+        <span class="rail-glabel">Write</span>
+        <span class="rail-item">
+          <svg class="ri" viewBox="0 0 24 24"><path d="M12 5v14" /><path d="M5 12h14" /></svg>
+          <em>New entry</em>
+        </span>
+        <span class="rail-item active">
+          <svg class="ri" viewBox="0 0 24 24"><path d="M9 6h11" /><path d="M9 12h11" /><path d="M9 18h11" /><path d="M4.5 6h.01" /><path d="M4.5 12h.01" /><path d="M4.5 18h.01" /></svg>
+          <em>Entries</em>
+        </span>
+      </div>
+
+      <div class="rail-group">
+        <span class="rail-glabel">Return</span>
+        <span class="rail-item">
+          <svg class="ri" viewBox="0 0 24 24"><path d="M3 19h18" /><path d="M6 19l4-8.5 3 4.5 2.5-3.5L19 19" /></svg>
+          <em>Ascent</em>
+        </span>
+        <span class="rail-item">
+          <svg class="ri" viewBox="0 0 24 24"><path d="M12 7v13" /><path d="M3 18a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h4a4 4 0 0 1 5 3 4 4 0 0 1 5-3h4a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-5a3 3 0 0 0-4 1 3 3 0 0 0-4-1z" /></svg>
+          <em>Lamp</em>
+        </span>
+        <span class="rail-item">
+          <svg class="ri" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" /></svg>
+          <em>Altar</em>
+        </span>
+      </div>
+
+      <div class="rail-foot">
+        <span class="rail-item">
+          <svg class="ri" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V15z" /></svg>
+          <em>Settings</em>
+        </span>
+        <span class="rail-item">
+          <svg class="ri" viewBox="0 0 24 24"><path d="M5 7h14" /><path d="M5 12h14" /><path d="M5 17h14" /></svg>
+          <em>Collapse</em>
+        </span>
+      </div>
     </nav>
 
-    {/* entries sidebar */}
+    {/* entries list */}
     <aside class="side">
-      <div class="side-brand">{brand}</div>
       <div class="side-search">Search entries…</div>
-      <div class="side-count">{count}</div>
+      <div class="side-views">
+        <span class="sv on">List</span>
+        <span class="sv">Month</span>
+        <span class="sv">Year</span>
+      </div>
+      <div class="side-daygroup">Today</div>
       <ul class="side-list">
         {
           entries.map((e) => (
@@ -138,9 +166,21 @@ const slashActive = slash?.activeId ?? slashCommands[0]?.id;
           open.body.map((p, i) => (
             <p>
               {p}
-              {!slash && i === open.body.length - 1 && <span class="caret" />}
+              {!slash && !open.scripture && i === open.body.length - 1 && (
+                <span class="caret" />
+              )}
             </p>
           ))
+        }
+        {
+          !slash && open.scripture && (
+            <blockquote class="ed-scripture">
+              <p class="es-text">{open.scripture.text}</p>
+              <p class="es-ref mono">
+                {open.scripture.ref} · ESV<span class="caret" />
+              </p>
+            </blockquote>
+          )
         }
         {
           slash && (
@@ -177,11 +217,11 @@ const slashActive = slash?.activeId ?? slashCommands[0]?.id;
   .appw {
     container-type: inline-size;
     position: relative;
-    background: #0f1117;
+    background: var(--ink-2);
     border: 1px solid var(--border);
     border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 50px 100px -45px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 50px 100px -45px var(--shadow);
   }
 
   /* macOS traffic lights — First Light tinted */
@@ -208,59 +248,86 @@ const slashActive = slash?.activeId ?? slashCommands[0]?.id;
     min-height: 460px;
   }
 
-  /* ---- rail ---- */
+  /* ---- nav rail (Write / Return) ---- */
   .rail {
     flex: none;
-    width: 64px;
+    width: 156px;
     border-right: 1px solid var(--border);
-    padding: 46px 0 16px;
+    padding: 40px 12px 14px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 16px;
+    gap: 20px;
   }
-  .rail-logo {
-    display: inline-flex;
-    margin-bottom: 6px;
+  .rail-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--paper);
+    padding-left: 8px;
+    margin-bottom: 2px;
+  }
+  .rail-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .rail-glabel {
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 8px;
+    margin-bottom: 8px;
   }
   .rail-item {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 5px;
-    color: var(--muted);
+    gap: 10px;
+    padding: 7px 8px;
+    border-radius: 8px;
+    color: var(--paper-dim);
+  }
+  .rail-item .ri {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.55;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
   .rail-item em {
-    font-family: var(--font-mono);
-    font-size: 7.5px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    font-family: var(--font-body);
     font-style: normal;
-    text-align: center;
-    line-height: 1.2;
-    max-width: 52px;
+    font-size: 13.5px;
+    letter-spacing: 0.1px;
   }
   .rail-item.active {
     color: var(--dawn-1);
+    background: var(--accent-glow);
   }
-  .rail-item.settings {
+  .rail-foot {
     margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .rail-foot .rail-item {
+    color: var(--muted);
   }
 
-  /* ---- sidebar ---- */
+  /* ---- entries list column ---- */
   .side {
     flex: none;
-    width: 232px;
+    width: 210px;
     border-right: 1px solid var(--border);
     padding: 42px 16px 16px;
     overflow: hidden;
-  }
-  .side-brand {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--paper);
-    margin-bottom: 16px;
   }
   .side-search {
     font-family: var(--font-mono);
@@ -269,15 +336,32 @@ const slashActive = slash?.activeId ?? slashCommands[0]?.id;
     border: 1px solid var(--border);
     border-radius: 9px;
     padding: 9px 12px;
+    margin-bottom: 14px;
+  }
+  .side-views {
+    display: flex;
+    gap: 4px;
     margin-bottom: 18px;
   }
-  .side-count {
+  .side-views .sv {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 10.5px;
+    letter-spacing: 0.3px;
+    color: var(--muted);
+    padding: 4px 9px;
+    border-radius: 7px;
+  }
+  .side-views .sv.on {
+    color: var(--dawn-1);
+    background: var(--accent-glow);
+  }
+  .side-daygroup {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
   .side-list {
     list-style: none;
@@ -381,6 +465,30 @@ const slashActive = slash?.activeId ?? slashCommands[0]?.id;
     50% { opacity: 0; }
   }
 
+  /* ---- inline /scripture insert ---- */
+  .ed-scripture {
+    margin: 4px 0 14px;
+    padding-left: 18px;
+    border-left: 2px solid var(--dawn-1);
+    max-width: 60ch;
+  }
+  .ed-scripture .es-text {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--paper-dim);
+    margin: 0 0 6px;
+    font-weight: 300;
+  }
+  .ed-scripture .es-ref {
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
   /* ---- slash palette (hero / feature mocks) ---- */
   .ed-slash {
     position: relative;
@@ -408,11 +516,9 @@ const slashActive = slash?.activeId ?? slashCommands[0]?.id;
     padding: 8px;
     border-radius: 12px;
     overflow: hidden;
-    background: rgba(18, 19, 25, 0.94);
-    border: 1px solid rgba(236, 231, 221, 0.12);
-    box-shadow:
-      0 10px 28px -14px rgba(0, 0, 0, 0.75),
-      inset 0 1px 0 rgba(236, 231, 221, 0.06);
+    background: var(--ink-2);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 10px 28px -14px var(--shadow);
   }
   .slash-item {
     position: relative;

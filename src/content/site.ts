@@ -57,7 +57,7 @@ export const pricingTiers = [
     unit: " / year",
     note: "14-day free trial · about $4.92 / month",
     desc:
-      "The full product — the editor, the Lamp, and the Ascent across every horizon. The longer you write, the more the map fills in.",
+      "The full product — the editor, every slash command, the Lamp, the Ascent across every horizon, and the Altar. The longer you write, the more the map fills in.",
     cta: { label: "Start free trial", href: "#", style: "solid" },
     featured: true,
     badge: "Most chosen",

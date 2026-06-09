@@ -6,7 +6,7 @@
 export const featuresIntro = {
   eyebrow: "Features",
   heading: "Write. Plant scripture. <em>See the pattern.</em>",
-  lead: "A journal for the long walk — slash commands and contemplative practice forms in the sentence, the Lamp to show where your heart has been leaning across the whole Bible, and the Ascent to climb the long view of your seasons, from the week to the year. The Altar — to gather the prayers you keep carrying — is coming soon.",
+  lead: "A journal built for spiritual growth — slash commands and contemplative rituals right in the sentence, the Lamp to show where your heart has been leaning across the whole Bible, the Ascent to climb the long view of your seasons, and the Altar to gather the prayers you keep carrying.",
 };
 
 // each deep dive renders with a live app-element mock (not a screenshot)
@@ -19,7 +19,7 @@ export const deepDives = [
     points: [
       {
         title: "Slash commands",
-        body: "Type `/` for scripture, prayer, impression, practice, or an inline photo. Inline glass panels, keyboard-native, dismissible. The spiritual life captured where it actually happens — in the middle of a sentence.",
+        body: "Type `/` for scripture, prayer, a sense, a ritual, or an inline photo. Inline glass panels, keyboard-native, dismissible. The spiritual life captured where it actually happens — in the middle of a sentence.",
       },
       {
         title: "Focus mode",
@@ -27,7 +27,7 @@ export const deepDives = [
       },
       {
         title: "Light, dark, and your own hand",
-        body: "A light or dark surface, set to follow your system. Then choose your writing face — Newsreader, Fraunces, iA Writer Duo, JetBrains Mono, a clean sans, or Atkinson Hyperlegible — and set your own size, line height, and measure.",
+        body: "A light or dark surface, set to follow your system. Then choose your writing face — Serif, Literary, Typewriter, Mono, Sans, or Readable — and set your own size, line height, and measure.",
       },
       {
         title: "Nothing between thought and word",
@@ -38,9 +38,9 @@ export const deepDives = [
   },
   {
     id: "practices",
-    tag: "The Practices",
+    tag: "Rituals",
     heading: "Forms that <em>carry you in.</em>",
-    lead: "Not a prompt of the day — contemplative writing forms drawn from the Christian tradition, opened with `/practice`. Browse the library, read the threshold, and write into a structure that knows where to begin.",
+    lead: "Not a prompt of the day — contemplative writing forms drawn from two thousand years of the praying church, opened with `/ritual`. Browse the library, read the threshold, and write into a structure that knows where to begin.",
     points: [
       {
         title: "Nine forms, one library",
@@ -59,13 +59,13 @@ export const deepDives = [
   },
   {
     id: "altar",
-    tag: "Altar · Coming soon",
+    tag: "The Altar",
     heading: "A place of <em>remembrance.</em>",
-    lead: "Not a prayer to-do list. The prayers and senses you plant while writing gather here over time — and when God meets you in one, however He moves, you mark the place. Coming soon.",
+    lead: "Not a prayer to-do list. The prayers and senses you plant while writing gather here on their own — and when God meets you in one, however He moves, you mark the place.",
     points: [
       {
-        title: "Seed, cairn, capstone",
-        body: "A prayer begins as a seed. Each time you return to it, another stone drops on the pile — until you can see the weight of what you've been carrying. When He meets you, the top stone is crowned with light.",
+        title: "Gathered by what you carry",
+        body: "The names you keep bringing to God, the places and callings your prayers are spent on, the matters He keeps tending in you — each one kept before Him, with how long you've held it laid plainly alongside.",
       },
       {
         title: "However He moved — not a checkbox",
@@ -73,7 +73,7 @@ export const deepDives = [
       },
       {
         title: "Thus far the Lord has helped",
-        body: "A chronological testimony of where God has met you — stones of remembrance to carry back into prayer, not requests to file away as closed.",
+        body: "Switch to the Over-time view and the altar becomes a testimony — where God has met you across the years, stones of remembrance to carry back into prayer, not requests to file away as closed.",
       },
     ],
     mock: "altar",
@@ -119,5 +119,115 @@ export const deepDives = [
       },
     ],
     mock: "letter",
+  },
+];
+
+// ============================================================
+// "Everything in Dayspring" — the exhaustive checklist. Every item is
+// grounded in the shipped app (editor extensions, settings, shortcuts,
+// import/export, the three Return views). Keep items short; this section
+// exists to show how much is actually here.
+// ============================================================
+export const everythingIntro = {
+  tag: "Everything in Dayspring",
+  heading: "The small things, <em>all the way down.</em>",
+  lead: "One premium plan, and a great deal of care. Here's the whole of it — the page, the tools in the sentence, the long view, and everything underneath.",
+  valueLine: "All of it, one plan — <strong>$59 a year</strong>, with a 14-day free trial.",
+};
+
+export const everything = [
+  {
+    group: "The page you write on",
+    items: [
+      "Full-screen, distraction-free editor",
+      "Focus mode",
+      "Typewriter scrolling",
+      "Paragraph dimming",
+      "Six writing faces — Serif to Mono",
+      "Your own size, line height & measure",
+      "Light & dark, follows your system",
+      "Continuous autosave — never lose a word",
+      "No perceptible input lag",
+    ],
+  },
+  {
+    group: "Writing tools",
+    items: [
+      "Markdown-native",
+      "Bold, italic, inline code & links",
+      "Selection format bar",
+      "Headings, lists & quotes",
+      "Task lists with checkboxes",
+      "Inline photos — drop or paste",
+      "First line as title (optional)",
+      "Keyboard-first throughout",
+      "Shortcut guide — press ?",
+    ],
+  },
+  {
+    group: "Slash commands",
+    items: [
+      "/scripture — ESV, word-for-word",
+      "/pray — log a prayer",
+      "/sense — a word or impression",
+      "/ritual — contemplative forms",
+      "/image — a photo, inline",
+      "Scripture references, auto-linked",
+    ],
+  },
+  {
+    group: "The Rituals library",
+    items: [
+      "Nine contemplative forms",
+      "From Ignatius to the Psalter",
+      "Filter by what you need",
+      "Guiding questions, in the editor",
+      "Optional previews before you begin",
+      "Dissolve a form into plain prose",
+    ],
+  },
+  {
+    group: "Looking back",
+    items: [
+      "The Lamp — your whole canon, lit",
+      "Scrub the Lamp by season",
+      "Tap a book to reread that night",
+      "The Ascent — week to year",
+      "Weekly & monthly reflections",
+      "The Altar — prayers gathered",
+      "Altar's “over time” testimony",
+    ],
+  },
+  {
+    group: "Finding & organizing",
+    items: [
+      "List, Month & Year views",
+      "Search every entry",
+      "Entry previews in the list",
+      "Collapsible sidebar",
+    ],
+  },
+  {
+    group: "Your history & data",
+    items: [
+      "Import from Day One",
+      "Import from Diarly",
+      "Import Markdown",
+      "Your photos come too",
+      "Parsed privately, on your device",
+      "Export your whole journal",
+      "First look-back ready on day one",
+    ],
+  },
+  {
+    group: "Trust & platform",
+    items: [
+      "macOS & web, kept in sync",
+      "iPhone app — coming soon",
+      "Encrypted in transit & at rest",
+      "Never sold, never trained on",
+      "Zero-retention AI reflection",
+      "Yours alone — between you and God",
+    ],
   },
 ];

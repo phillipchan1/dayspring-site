@@ -40,6 +40,27 @@ const ogImageUrl = new URL(ogImage, site.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- No-flash theme: resolve before first paint. Stored choice wins; the
+         literal "auto" (or no choice) follows the OS. Mirrors the app's
+         Light / Dark / Auto. -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var mql = window.matchMedia("(prefers-color-scheme: light)");
+          var resolved =
+            stored === "light" || stored === "dark"
+              ? stored
+              : mql.matches
+                ? "light"
+                : "dark";
+          document.documentElement.setAttribute("data-theme", resolved);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
+
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

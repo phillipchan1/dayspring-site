@@ -6,7 +6,7 @@ import AltarMock from "../components/AltarMock.astro";
 import ScriptureTeaser from "../components/ScriptureTeaser.astro";
 import PracticeMock from "../components/PracticeMock.astro";
 import LookingBackMock from "../components/LookingBackMock.astro";
-import { featuresIntro, deepDives } from "../content/features";
+import { featuresIntro, deepDives, everythingIntro, everything } from "../content/features";
 import { slashCommands, lookingBack, altar, practices } from "../content/home";
 ---
 
@@ -66,7 +66,8 @@ import { slashCommands, lookingBack, altar, practices } from "../content/home";
               {dive.mock === "altar" && (
                 <AltarMock
                   subtitle={altar.mock.subtitle}
-                  cairns={altar.mock.cairns}
+                  intro={altar.mock.intro}
+                  groups={altar.mock.groups}
                   note={altar.mock.note}
                 />
               )}
@@ -77,6 +78,46 @@ import { slashCommands, lookingBack, altar, practices } from "../content/home";
       </section>
     ))
   }
+
+  {/* the exhaustive list — show how much is actually here */}
+  <section class="everything" id="everything">
+    <SectionReveal class="wrap ev-head">
+      <p class="tag mono">{everythingIntro.tag}</p>
+      <h2 set:html={everythingIntro.heading} />
+      <p class="lead">{everythingIntro.lead}</p>
+      <p class="ev-value" set:html={everythingIntro.valueLine} />
+    </SectionReveal>
+    <SectionReveal class="wrap">
+      <div class="ev-grid">
+        {
+          everything.map((col) => (
+            <section class="ev-col">
+              <h3 class="ev-group">{col.group}</h3>
+              <ul class="ev-list">
+                {col.items.map((it) => (
+                  <li>
+                    <span class="ev-check" aria-hidden="true">
+                      <svg viewBox="0 0 16 16" width="11" height="11">
+                        <path
+                          d="M2.5 8.5l3.5 3.5 7-8"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <span class="ev-item" set:html={it} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+    </SectionReveal>
+  </section>
 </Base>
 
 <style>
@@ -186,6 +227,113 @@ import { slashCommands, lookingBack, altar, practices } from "../content/home";
     line-height: 1.6;
   }
 
+  /* ---- everything (the exhaustive list) ---- */
+  .everything {
+    padding: 80px 0 120px;
+  }
+  .everything :global(.ev-head) {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .everything .tag {
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+    margin-bottom: 18px;
+  }
+  .everything h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(30px, 4.4vw, 52px);
+    letter-spacing: -1px;
+    line-height: 1.05;
+    margin: 0 auto 18px;
+    max-width: 18ch;
+  }
+  .everything h2 :global(em) {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .everything .lead {
+    font-size: 18px;
+    color: var(--paper-dim);
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 54ch;
+    margin: 0 auto;
+  }
+  .ev-value {
+    display: inline-block;
+    margin: 24px auto 0;
+    padding: 9px 18px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.2px;
+    color: var(--paper-dim);
+  }
+  .ev-value :global(strong) {
+    color: var(--dawn-1);
+    font-weight: 500;
+  }
+
+  .ev-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px 36px;
+  }
+  .ev-col {
+    break-inside: avoid;
+  }
+  .ev-group {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--dawn-1);
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ev-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .ev-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .ev-check {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 17px;
+    height: 17px;
+    margin-top: 1px;
+    border-radius: 50%;
+    color: var(--dawn-1);
+    background: var(--accent-glow);
+  }
+  .ev-item {
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: var(--paper-dim);
+    font-weight: 300;
+  }
+
+  @media (max-width: 1040px) {
+    .ev-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   @media (max-width: 820px) {
     .f-intro {
       padding: 150px 0 40px;
@@ -197,6 +345,13 @@ import { slashCommands, lookingBack, altar, practices } from "../content/home";
     /* on mobile, always lead with the copy, then the visual */
     .deepdive.alt .grid > :global(.copy) {
       order: 0;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .ev-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
     }
   }
 </style>

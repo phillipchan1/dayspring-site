@@ -24,7 +24,7 @@ const faqSchema = {
   <section class="faq-intro">
     <SectionReveal class="wrap">
       <p class="eyebrow mono">{faqIntro.eyebrow}</p>
-      <h1>{faqIntro.heading}</h1>
+      <h1 set:html={faqIntro.heading} />
       <p class="lead">{faqIntro.lead}</p>
     </SectionReveal>
   </section>
@@ -81,6 +81,10 @@ const faqSchema = {
     letter-spacing: -1.5px;
     line-height: 1.02;
     margin-bottom: 20px;
+  }
+  .faq-intro h1 :global(em) {
+    font-style: italic;
+    color: var(--gold);
   }
   .faq-intro .lead {
     font-size: 18px;

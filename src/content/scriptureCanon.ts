@@ -207,7 +207,7 @@ export function buildBookCells(
     const r = seed((offset + index) * 97 + c * 13);
     const lit = r < nLit / book[1];
     if (!lit) {
-      cells.push({ bg: "rgba(236,231,221,.055)", shadow: "none" });
+      cells.push({ bg: "var(--cell-unlit)", shadow: "none" });
       continue;
     }
     const b = 0.45 + 0.55 * seed((offset + index) * 31 + c * 7) * v;

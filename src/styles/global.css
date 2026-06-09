@@ -1,10 +1,15 @@
 /* ============================================================
    First Light — Dayspring design tokens & base
-   A warm dawn rising over a dark, quiet page. Restraint is the brand.
-   Tokens mirror reference/dayspring-prototype.html exactly.
+   A warm dawn that can rise over a dark page or a parchment one.
+   Two faces, one brand — mirroring the app's Light / Dark / Auto.
+   Theme-dependent values live under :root (dark default) and
+   [data-theme="light"]; components consume the tokens, never raw hex.
    ============================================================ */
 
-:root {
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
   /* ink — the dark, quiet page */
   --ink: #0c0d11;
   --ink-2: #121319;
@@ -21,9 +26,75 @@
   --dawn-3: #c56a6e; /* deep rose */
   --gold: #e4ba7c;
 
+  /* hairlines & surfaces (semantic — flip per theme) */
   --border: rgba(236, 231, 221, 0.09);
+  --border-strong: rgba(236, 231, 221, 0.18);
+  --border-dim: rgba(236, 231, 221, 0.06);
+  --surface: rgba(18, 19, 25, 0.35);
+  --surface-2: rgba(18, 19, 25, 0.5);
+  --surface-strong: rgba(18, 19, 25, 0.72);
+  --card-grad: linear-gradient(165deg, var(--ink-3), var(--ink-2));
+  --shadow: rgba(0, 0, 0, 0.8);
+  --shadow-soft: rgba(0, 0, 0, 0.45);
+  --accent-glow: rgba(243, 189, 118, 0.18);
 
-  /* type */
+  /* nav backdrop + film grain */
+  --nav-bg: rgba(12, 13, 17, 0.72);
+  --grain-opacity: 0.04;
+
+  /* hero veil — darken behind copy as the mock bleeds on wide screens.
+     --veil-fade is a TRANSPARENT version of the page color (not `transparent`,
+     which is transparent-black and would smudge dark mid-gradient). */
+  --veil-strong: rgba(12, 13, 17, 0.92);
+  --veil-soft: rgba(12, 13, 17, 0.35);
+  --veil-fade: rgba(12, 13, 17, 0);
+
+  /* canon heatmap (the Lamp) — quiet/unlit cell */
+  --cell-unlit: rgba(236, 231, 221, 0.055);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* parchment — a warm, lit page (sampled from the app's light mode) */
+  --ink: #f1ebdf; /* page background */
+  --ink-2: #f6f1e7; /* recessed surface */
+  --ink-3: #fdfbf5; /* raised card (lightest) */
+
+  /* warm ink type on parchment */
+  --paper: #2c2820;
+  --paper-dim: #6a6254;
+  --muted: #98917f;
+
+  /* dawn — deepened so it carries on a light ground */
+  --dawn-1: #c17d35; /* amber */
+  --dawn-2: #c0695a; /* rose */
+  --dawn-3: #a94f54; /* deep rose */
+  --gold: #b27d31;
+
+  --border: rgba(60, 50, 30, 0.13);
+  --border-strong: rgba(60, 50, 30, 0.22);
+  --border-dim: rgba(60, 50, 30, 0.07);
+  --surface: rgba(255, 255, 255, 0.55);
+  --surface-2: rgba(255, 255, 255, 0.72);
+  --surface-strong: rgba(255, 255, 255, 0.82);
+  --card-grad: linear-gradient(165deg, var(--ink-3), var(--ink-2));
+  --shadow: rgba(92, 70, 38, 0.16);
+  --shadow-soft: rgba(92, 70, 38, 0.1);
+  --accent-glow: rgba(193, 125, 53, 0.16);
+
+  --nav-bg: rgba(246, 241, 231, 0.78);
+  --grain-opacity: 0.025;
+
+  --veil-strong: rgba(241, 235, 223, 0.92);
+  --veil-soft: rgba(241, 235, 223, 0.4);
+  --veil-fade: rgba(241, 235, 223, 0);
+
+  --cell-unlit: rgba(60, 50, 30, 0.08);
+}
+
+:root {
+  /* type — shared across themes */
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-body: "Newsreader", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -53,6 +124,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
 }
 
 /* film grain — fixed overlay, never intercepts pointer events */
@@ -62,7 +134,7 @@ body::after {
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.04;
+  opacity: var(--grain-opacity);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
