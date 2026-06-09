@@ -28,8 +28,8 @@
   </g>
 
   <!-- headline -->
-  <text x="96" y="320" font-family="Georgia, serif" font-weight="300" font-size="92" letter-spacing="-2" fill="#ece7dd">See who you're</text>
-  <text x="96" y="416" font-family="Georgia, serif" font-style="italic" font-size="92" letter-spacing="-2" fill="url(#becoming)">becoming.</text>
+  <text x="96" y="300" font-family="Georgia, serif" font-weight="300" font-size="80" letter-spacing="-1.5" fill="#ece7dd">A journal built for</text>
+  <text x="96" y="392" font-family="Georgia, serif" font-style="italic" font-size="80" letter-spacing="-1.5" fill="url(#becoming)">spiritual growth.</text>
 
   <!-- verse -->
   <text x="96" y="520" font-family="monospace" font-size="22" fill="#7a7986">&#8220;…the dayspring from on high hath visited us.&#8221; — Luke 1:78</text>

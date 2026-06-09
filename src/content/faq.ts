@@ -46,8 +46,8 @@ export const faqs = [
     a: "A real macOS app with deep margins and full-screen focus, plus the full journal in any browser, synced across both. The web app is built thumb-reachable and keyboard-aware so you can write on your phone today; a native iPhone app is what we're building next.",
   },
   {
-    q: "Is it really worth $59 a year?",
-    a: "That's the whole product — the editor, every slash command, the Lamp, the Ascent across every horizon, and the Altar (<a href=\"/features#everything\">50+ details in all</a>). It's about $4.92 a month — less than the leading AI journal, and the only one that reflects with you across years. There's also <strong>$8 month-to-month</strong> if you'd rather go slow.",
+    q: "Is it really worth $64 a year?",
+    a: "That's the whole product — the editor, every slash command, the Lamp, the Ascent across every horizon, and the Altar (<a href=\"/features#everything\">50+ details in all</a>). It's about $5.33 a month — less than the leading AI journal, and the only one that reflects with you across years. There's also <strong>$7 month-to-month</strong> if you'd rather go slow.",
   },
   {
     q: "What if I try it and it's just not for me?",
