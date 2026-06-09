@@ -10,6 +10,8 @@
 // the signature.
 // ============================================================
 
+import { downloads } from "./site";
+
 export const maker = {
   eyebrow: "A note from the maker",
   title: "I built this for myself first.",
@@ -22,5 +24,5 @@ export const maker = {
     "Dayspring is that journal. I hope it holds your words as carefully as I've tried to make it hold mine.",
   ],
   signature: "— Phil",
-  cta: { label: "Download for macOS", href: "#" },
+  cta: { label: "Download for macOS", href: downloads.macos.href },
 };

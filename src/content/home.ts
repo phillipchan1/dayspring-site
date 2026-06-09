@@ -10,6 +10,8 @@
 // (src/editor/SlashPalette.tsx): /scripture /pray /sense /ritual /image.
 // ============================================================
 
+import { downloads } from "./site";
+
 export const hero = {
   eyebrow: "A journal for the inner life",
   lines: ["A journal built for", "<em>spiritual growth.</em>"],
@@ -18,7 +20,7 @@ export const hero = {
     text: "…the Dayspring from on high has visited us",
     ref: "Luke 1:78",
   },
-  primary: { label: "Download for macOS", href: "#" },
+  primary: { label: "Download for macOS", href: downloads.macos.href },
   ghost: { label: "Why we built it →", href: "/why" },
   /** Shown beneath the hero app mock — one quiet editor promise. */
   mockCaption: "Type / and the spiritual life is right there in the sentence.",

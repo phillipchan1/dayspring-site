@@ -10,6 +10,8 @@
 // Honesty is the trust. Tone = sanctuary, confidence, held space.
 // ============================================================
 
+import { downloads } from "./site";
+
 export const privacyPage = {
   eyebrow: "Privacy as stewardship",
   heading: "Some things are meant to be written <em>before they're ever spoken aloud.</em>",
@@ -43,5 +45,5 @@ export const privacyPage = {
 
   line: "It's just between you and God.",
 
-  cta: { label: "Download for macOS", href: "#" },
+  cta: { label: "Download for macOS", href: downloads.macos.href },
 };

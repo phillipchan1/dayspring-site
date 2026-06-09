@@ -58,7 +58,7 @@ export const pricingTiers = [
     note: "14-day free trial · about $5.33 / month",
     desc:
       "The full product — the editor, every slash command, the Lamp, the Ascent across every horizon, and the Altar. The longer you write, the more the map fills in.",
-    cta: { label: "Download for macOS", href: "#", style: "solid" },
+    cta: { label: "Download for macOS", href: downloads.macos.href, style: "solid" },
     featured: true,
     badge: "Most chosen",
   },
@@ -69,7 +69,7 @@ export const pricingTiers = [
     note: "14-day free trial · cancel anytime",
     desc:
       "Same everything, billed month to month. A gentle way to try it before you commit to the long walk.",
-    cta: { label: "Download for macOS", href: "#", style: "line" },
+    cta: { label: "Download for macOS", href: downloads.macos.href, style: "line" },
     featured: false,
   },
 ] as const;

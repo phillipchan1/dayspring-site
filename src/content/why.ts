@@ -4,6 +4,8 @@
 // Only Augustine is quoted directly; Peterson is referenced by phrase.
 // ============================================================
 
+import { downloads } from "./site";
+
 export const why = {
   title: "Why we built Dayspring",
   subtitle: "A long obedience, written down.",
@@ -48,5 +50,5 @@ export const why = {
     "That's the whole reason.",
   ],
 
-  cta: { label: "Download for macOS", href: "#" },
+  cta: { label: "Download for macOS", href: downloads.macos.href },
 };
