@@ -43,5 +43,5 @@ export const privacyPage = {
 
   line: "It's just between you and God.",
 
-  cta: { label: "Start your 14-day trial", href: "#" },
+  cta: { label: "Download for macOS", href: "#" },
 };

@@ -48,5 +48,5 @@ export const why = {
     "That's the whole reason.",
   ],
 
-  cta: { label: "Start your 14-day trial", href: "#" },
+  cta: { label: "Download for macOS", href: "#" },
 };

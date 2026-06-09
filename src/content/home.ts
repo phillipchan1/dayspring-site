@@ -18,7 +18,7 @@ export const hero = {
     text: "…the Dayspring from on high has visited us",
     ref: "Luke 1:78",
   },
-  primary: { label: "Start your 14-day trial", href: "#" },
+  primary: { label: "Download for macOS", href: "#" },
   ghost: { label: "Why we built it →", href: "/why" },
   /** Shown beneath the hero app mock — one quiet editor promise. */
   mockCaption: "Type / and the spiritual life is right there in the sentence.",
