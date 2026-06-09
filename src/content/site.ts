@@ -10,7 +10,7 @@ export const site = {
   tagline: "A journal built for spiritual growth.",
   description:
     "A journal for spiritual growth — plant scripture inline, draw near through contemplative practice forms, see where your heart has been leaning across the whole Bible, and look back across week, month, quarter, and year.",
-  url: "https://dayspring.app",
+  url: "https://www.usedayspring.app",
   verse: {
     text: "…the Dayspring from on high has visited us",
     ref: "Luke 1:78",
