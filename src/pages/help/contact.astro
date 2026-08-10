@@ -246,6 +246,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     display: grid;
     gap: 22px;
   }
+  /* `display: grid` beats the UA stylesheet's `[hidden] { display: none }`, so
+     without this the form stays on screen after a successful send — under the
+     thank-you message, still submittable a second time. */
+  form[hidden] {
+    display: none;
+  }
   .row {
     display: grid;
     grid-template-columns: 1fr 1fr;
