@@ -5,7 +5,7 @@ import {
   renderContactEmail,
   renderAutoReply,
   renderContactIssue,
-  deliveryMode,
+  deliveryChain,
   checkRateLimit,
   clientIp,
   RATE_LIMIT_MAX,
@@ -261,13 +261,52 @@ describe("delivery, end to end", () => {
     expect(body.ok).toBe(false);
   });
 
-  it("reports a failure when Resend rejects it, rather than a false success", async () => {
+  it("reports a failure when Resend rejects it and there's no fallback", async () => {
     process.env.RESEND_API_KEY = "re_test";
     vi.stubGlobal("fetch", async () => new Response("domain not verified", { status: 403 }));
 
     const { status, body } = await post();
     expect(status).toBe(502);
     expect(body.ok).toBe(false);
+  });
+
+  it("falls back to GitHub when Resend is misconfigured", async () => {
+    // The real scenario this exists for: a Resend key added before the domain
+    // is verified. Resend wins the preference order, so without a fallback one
+    // bad key silently breaks the form for everyone.
+    process.env.RESEND_API_KEY = "re_test";
+    process.env.GITHUB_TOKEN = "gh_test";
+    process.env.SUPPORT_REPO = "owner/repo";
+
+    const hits: string[] = [];
+    vi.stubGlobal("fetch", async (url: string) => {
+      hits.push(String(url));
+      return String(url).includes("resend.com")
+        ? new Response("domain not verified", { status: 403 })
+        : new Response('{"number":9}', { status: 201 });
+    });
+
+    const { status, body } = await post();
+    expect(status).toBe(200);
+    expect(body.ok).toBe(true);
+    expect(hits[0]).toContain("resend.com");
+    expect(hits[1]).toContain("api.github.com");
+  });
+
+  it("only reports failure once every route has been tried", async () => {
+    process.env.RESEND_API_KEY = "re_test";
+    process.env.GITHUB_TOKEN = "gh_test";
+    process.env.SUPPORT_REPO = "owner/repo";
+
+    let tried = 0;
+    vi.stubGlobal("fetch", async () => {
+      tried++;
+      return new Response("nope", { status: 500 });
+    });
+
+    const { status } = await post();
+    expect(status).toBe(502);
+    expect(tried).toBe(2);
   });
 
   it("turns away a flood from one sender, and says how to still reach us", async () => {
@@ -370,23 +409,23 @@ describe("clientIp", () => {
   });
 });
 
-describe("deliveryMode", () => {
-  it("prefers Resend when a key is present", () => {
-    expect(deliveryMode("re_123", "gh_123", "owner/repo")).toBe("resend");
+describe("deliveryChain", () => {
+  it("prefers Resend but keeps GitHub as a fallback", () => {
+    expect(deliveryChain("re_123", "gh_123", "owner/repo")).toEqual(["resend", "github"]);
   });
 
-  it("falls back to GitHub when both token and repo are set", () => {
-    expect(deliveryMode(null, "gh_123", "owner/repo")).toBe("github");
+  it("uses GitHub alone when there's no Resend key", () => {
+    expect(deliveryChain(null, "gh_123", "owner/repo")).toEqual(["github"]);
   });
 
   it("needs both halves of the GitHub config", () => {
-    expect(deliveryMode(null, "gh_123", null)).toBe("none");
-    expect(deliveryMode(null, null, "owner/repo")).toBe("none");
+    expect(deliveryChain(null, "gh_123", null)).toEqual([]);
+    expect(deliveryChain(null, null, "owner/repo")).toEqual([]);
   });
 
-  it("reports none when nothing is configured", () => {
-    // The endpoint returns 503 on "none" rather than a false success — a form
-    // that silently swallows mail is worse than no form at all.
-    expect(deliveryMode(null, null, null)).toBe("none");
+  it("is empty when nothing is configured", () => {
+    // The endpoint returns 503 on an empty chain rather than a false success —
+    // a form that silently swallows mail is worse than no form at all.
+    expect(deliveryChain(null, null, null)).toEqual([]);
   });
 });

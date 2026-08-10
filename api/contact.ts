@@ -374,15 +374,26 @@ export function clientIp(req: Request): string {
   );
 }
 
-/** Which delivery path is configured, if any. */
-export function deliveryMode(
+export type DeliveryRoute = "resend" | "github";
+
+/**
+ * Every configured route, in preference order.
+ *
+ * A LIST rather than a single choice, because they are tried in turn until one
+ * succeeds. Resend leads when it's available — a real email with Reply-To set
+ * is a far better support inbox than a GitHub issue — but a misconfigured
+ * Resend key (unverified domain, wrong recipient) must not take down a working
+ * GitHub fallback and silently break the form for everyone.
+ */
+export function deliveryChain(
   resendKey: string | null,
   githubToken: string | null,
   supportRepo: string | null,
-): "resend" | "github" | "none" {
-  if (resendKey) return "resend";
-  if (githubToken && supportRepo) return "github";
-  return "none";
+): DeliveryRoute[] {
+  const chain: DeliveryRoute[] = [];
+  if (resendKey) chain.push("resend");
+  if (githubToken && supportRepo) chain.push("github");
+  return chain;
 }
 
 async function verifyTurnstile(token: string, secret: string, ip: string | null): Promise<boolean> {
@@ -457,39 +468,48 @@ export async function POST(req: Request): Promise<Response> {
   const resendKey = env("RESEND_API_KEY");
   const githubToken = env("GITHUB_TOKEN");
   const supportRepo = env("SUPPORT_REPO");
-  const mode = deliveryMode(resendKey, githubToken, supportRepo);
+  const chain = deliveryChain(resendKey, githubToken, supportRepo);
 
-  try {
-    if (mode === "resend") {
-      await sendViaResend(result.message, resendKey!);
-    } else if (mode === "github") {
-      await sendViaGithub(result.message, githubToken!, supportRepo!);
-    } else {
-      // Loud on purpose. Reporting success here would mean a person believes
-      // they've been heard when nothing was delivered.
-      console.error(
-        "[contact] no delivery configured — set RESEND_API_KEY, or GITHUB_TOKEN + SUPPORT_REPO",
-      );
-      return json(
-        {
-          ok: false,
-          error:
-            "Our contact form isn't able to send right now. Please email hello@usedayspring.app directly — we'll get it either way.",
-        },
-        503,
-      );
-    }
-  } catch (err) {
-    console.error("[contact] delivery failed:", err);
+  if (!chain.length) {
+    // Loud on purpose. Reporting success here would mean a person believes
+    // they've been heard when nothing was delivered.
+    console.error(
+      "[contact] no delivery configured — set RESEND_API_KEY, or GITHUB_TOKEN + SUPPORT_REPO",
+    );
     return json(
       {
         ok: false,
         error:
-          "Something went wrong sending that. Please email hello@usedayspring.app directly — sorry for the detour.",
+          "Our contact form isn't able to send right now. Please email hello@usedayspring.app directly — we'll get it either way.",
       },
-      502,
+      503,
     );
   }
 
-  return json({ ok: true }, 200);
+  // Try each configured route until one takes it. The message matters more than
+  // which pipe carries it, so a broken preferred route costs a log line and a
+  // retry rather than the message.
+  for (const route of chain) {
+    try {
+      if (route === "resend") await sendViaResend(result.message, resendKey!);
+      else await sendViaGithub(result.message, githubToken!, supportRepo!);
+
+      if (route !== chain[0]) {
+        console.warn(`[contact] delivered via fallback "${route}" — fix "${chain[0]}"`);
+      }
+      return json({ ok: true }, 200);
+    } catch (err) {
+      console.error(`[contact] delivery via "${route}" failed:`, err);
+    }
+  }
+
+  console.error(`[contact] every route failed (${chain.join(", ")}) — message not delivered`);
+  return json(
+    {
+      ok: false,
+      error:
+        "Something went wrong sending that. Please email hello@usedayspring.app directly — sorry for the detour.",
+    },
+    502,
+  );
 }
