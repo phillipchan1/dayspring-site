@@ -9,12 +9,14 @@ interface Props {
   /** Stagger delay in ms (applied as transition-delay). */
   delay?: number;
   class?: string;
+  /** Any other attribute (id, data-*, aria-*) lands on the rendered element. */
+  [key: string]: unknown;
 }
-const { as: Tag = "div", delay = 0, class: className = "" } = Astro.props;
+const { as: Tag = "div", delay = 0, class: className = "", ...rest } = Astro.props;
 const style = delay ? `transition-delay:${delay}ms` : undefined;
 ---
 
-<Tag class:list={["reveal", className]} style={style}>
+<Tag class:list={["reveal", className]} style={style} {...rest}>
   <slot />
 </Tag>
 
@@ -35,7 +37,11 @@ const style = delay ? `transition-delay:${delay}ms` : undefined;
           }
         });
       },
-      { threshold: 0.2 },
+      // threshold 0 + a bottom margin, NOT a ratio. A ratio threshold is
+      // unreachable for any element taller than (1 / threshold) viewports —
+      // it would sit at opacity 0 forever on a short window. The margin is what
+      // keeps it from firing while the element is still below the fold.
+      { threshold: 0, rootMargin: "0px 0px -8% 0px" },
     );
     els.forEach((el) => io.observe(el));
   }

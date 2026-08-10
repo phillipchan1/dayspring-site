@@ -37,6 +37,7 @@ export const navLinks = [
   { label: "Why we built it", href: "/why" },
   { label: "Features", href: "/features" },
   { label: "FAQ", href: "/faq" },
+  { label: "Help", href: "/help" },
 ] as const;
 
 // footer link rows
@@ -44,6 +45,7 @@ export const footerLinks = [
   { label: "Why we built it", href: "/why" },
   { label: "Features", href: "/features" },
   { label: "FAQ", href: "/faq" },
+  { label: "Help", href: "/help" },
   { label: "Privacy", href: "/privacy" },
   { label: "A note from the maker", href: "/maker" },
   { label: "Dayspring © 2026", href: "/" },
