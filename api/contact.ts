@@ -274,17 +274,42 @@ async function sendViaResend(m: ContactMessage, apiKey: string): Promise<void> {
   }
 }
 
-async function sendViaGithub(m: ContactMessage, token: string, repo: string): Promise<void> {
-  const issue = renderContactIssue(m);
-  const res = await fetch(`https://api.github.com/repos/${repo}/issues`, {
+async function createIssue(
+  repo: string,
+  token: string,
+  payload: Record<string, unknown>,
+): Promise<Response> {
+  return fetch(`https://api.github.com/repos/${repo}/issues`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/vnd.github+json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ title: issue.title, body: issue.body, labels: ["support"] }),
+    body: JSON.stringify(payload),
   });
+}
+
+async function sendViaGithub(m: ContactMessage, token: string, repo: string): Promise<void> {
+  const issue = renderContactIssue(m);
+  const label = env("SUPPORT_LABEL") ?? "support";
+
+  let res = await createIssue(repo, token, {
+    title: issue.title,
+    body: issue.body,
+    labels: [label],
+  });
+
+  // A label that doesn't exist in the repo yet is a 422. Retry unlabelled
+  // rather than lose the message — the label is filing convenience, and no
+  // amount of it is worth dropping something a person wrote to us.
+  if (res.status === 422) {
+    console.warn(
+      `[contact] label "${label}" rejected by ${repo} — filing without it. ` +
+        `Create the label to get these grouped.`,
+    );
+    res = await createIssue(repo, token, { title: issue.title, body: issue.body });
+  }
 
   if (!res.ok) {
     throw new Error(`GitHub rejected the issue (${res.status}): ${await res.text()}`);

@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import {
+  POST,
   validateContact,
   renderContactEmail,
   renderAutoReply,
@@ -167,6 +168,113 @@ describe("renderContactIssue", () => {
     expect(issue.title).toBe("[support] Import stuck");
     expect(issue.body).toContain("**From:** Ruth <ruth@example.com>");
     expect(issue.body).toContain("My Day One import stopped halfway through.");
+  });
+});
+
+/**
+ * Driven through the real handler rather than a pure helper, because the
+ * property under test IS the end-to-end one: a message a person wrote must
+ * never be reported as sent when it wasn't, and must never be dropped over
+ * something incidental like a missing label.
+ */
+describe("delivery, end to end", () => {
+  const ENV_KEYS = ["RESEND_API_KEY", "GITHUB_TOKEN", "SUPPORT_REPO", "TURNSTILE_SECRET_KEY"];
+  let saved: Record<string, string | undefined>;
+
+  const post = async () => {
+    const res = await POST(
+      new Request("https://www.usedayspring.app/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...good }),
+      }),
+    );
+    return { status: res.status, body: (await res.json()) as { ok?: boolean; error?: string } };
+  };
+
+  beforeEach(() => {
+    saved = Object.fromEntries(ENV_KEYS.map((k) => [k, process.env[k]]));
+    for (const k of ENV_KEYS) delete process.env[k];
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    for (const [k, v] of Object.entries(saved)) {
+      if (v === undefined) delete process.env[k];
+      else process.env[k] = v;
+    }
+    vi.restoreAllMocks();
+  });
+
+  it("refuses to claim success when nothing is configured", async () => {
+    const { status, body } = await post();
+    expect(status).toBe(503);
+    expect(body.ok).toBe(false);
+    // The person must be told where else to write, not left thinking it sent.
+    expect(body.error).toContain("hello@usedayspring.app");
+  });
+
+  it("files the message even when the label doesn't exist in the repo", async () => {
+    process.env.GITHUB_TOKEN = "gh_test";
+    process.env.SUPPORT_REPO = "owner/repo";
+
+    const attempts: Record<string, unknown>[] = [];
+    vi.stubGlobal("fetch", async (_url: string, init: RequestInit) => {
+      const payload = JSON.parse(String(init.body));
+      attempts.push(payload);
+      // GitHub answers 422 for a label the repo doesn't have.
+      return payload.labels
+        ? new Response('{"message":"Validation Failed"}', { status: 422 })
+        : new Response('{"number":7}', { status: 201 });
+    });
+
+    const { status, body } = await post();
+    expect(status).toBe(200);
+    expect(body.ok).toBe(true);
+    expect(attempts).toHaveLength(2);
+    expect(attempts[0]!.labels).toEqual(["support"]);
+    expect(attempts[1]!.labels).toBeUndefined();
+    // The retry must carry the same content, not a stripped-down version.
+    expect(attempts[1]!.body).toBe(attempts[0]!.body);
+  });
+
+  it("reports a failure when GitHub rejects it outright", async () => {
+    process.env.GITHUB_TOKEN = "gh_test";
+    process.env.SUPPORT_REPO = "owner/repo";
+    vi.stubGlobal("fetch", async () => new Response("bad credentials", { status: 401 }));
+
+    const { status, body } = await post();
+    expect(status).toBe(502);
+    expect(body.ok).toBe(false);
+  });
+
+  it("reports a failure when Resend rejects it, rather than a false success", async () => {
+    process.env.RESEND_API_KEY = "re_test";
+    vi.stubGlobal("fetch", async () => new Response("domain not verified", { status: 403 }));
+
+    const { status, body } = await post();
+    expect(status).toBe(502);
+    expect(body.ok).toBe(false);
+  });
+
+  it("still succeeds when only the courtesy auto-reply fails", async () => {
+    process.env.RESEND_API_KEY = "re_test";
+    process.env.CONTACT_AUTOREPLY = "true";
+    let call = 0;
+    vi.stubGlobal("fetch", async () => {
+      call++;
+      // First call is the real message; second is the auto-reply, which an
+      // unverified domain can't send to an arbitrary address.
+      return call === 1
+        ? new Response('{"id":"1"}', { status: 200 })
+        : new Response("not allowed", { status: 403 });
+    });
+
+    const { status, body } = await post();
+    expect(status).toBe(200);
+    expect(body.ok).toBe(true);
+    delete process.env.CONTACT_AUTOREPLY;
   });
 });
 
