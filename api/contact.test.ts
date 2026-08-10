@@ -6,7 +6,12 @@ import {
   renderAutoReply,
   renderContactIssue,
   deliveryMode,
+  checkRateLimit,
+  clientIp,
+  RATE_LIMIT_MAX,
+  RATE_LIMIT_WINDOW_MS,
   type ContactMessage,
+  type RateStore,
 } from "./contact";
 
 const good = {
@@ -181,11 +186,18 @@ describe("delivery, end to end", () => {
   const ENV_KEYS = ["RESEND_API_KEY", "GITHUB_TOKEN", "SUPPORT_REPO", "TURNSTILE_SECRET_KEY"];
   let saved: Record<string, string | undefined>;
 
-  const post = async () => {
+  // The rate-limit store lives at module scope, so every test must post from
+  // its own IP. Sharing one bucket would silently cap the suite at
+  // RATE_LIMIT_MAX tests and fail the next one added with a confusing 429.
+  let ipCounter = 0;
+  const post = async (ip?: string) => {
     const res = await POST(
       new Request("https://www.usedayspring.app/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-real-ip": ip ?? `10.0.0.${++ipCounter}`,
+        },
         body: JSON.stringify({ ...good }),
       }),
     );
@@ -258,6 +270,28 @@ describe("delivery, end to end", () => {
     expect(body.ok).toBe(false);
   });
 
+  it("turns away a flood from one sender, and says how to still reach us", async () => {
+    process.env.GITHUB_TOKEN = "gh_test";
+    process.env.SUPPORT_REPO = "owner/repo";
+    let filed = 0;
+    vi.stubGlobal("fetch", async () => {
+      filed++;
+      return new Response('{"number":1}', { status: 201 });
+    });
+
+    const ip = "203.0.113.7";
+    for (let i = 0; i < RATE_LIMIT_MAX; i++) {
+      expect((await post(ip)).status).toBe(200);
+    }
+
+    const { status, body } = await post(ip);
+    expect(status).toBe(429);
+    // A rate-limited person is still a person — give them the mailbox.
+    expect(body.error).toContain("hello@usedayspring.app");
+    // And the flood must cost us no outbound calls beyond the ones allowed.
+    expect(filed).toBe(RATE_LIMIT_MAX);
+  });
+
   it("still succeeds when only the courtesy auto-reply fails", async () => {
     process.env.RESEND_API_KEY = "re_test";
     process.env.CONTACT_AUTOREPLY = "true";
@@ -275,6 +309,64 @@ describe("delivery, end to end", () => {
     expect(status).toBe(200);
     expect(body.ok).toBe(true);
     delete process.env.CONTACT_AUTOREPLY;
+  });
+});
+
+describe("checkRateLimit", () => {
+  const t0 = 1_700_000_000_000;
+
+  it("lets a normal person through", () => {
+    const store: RateStore = new Map();
+    for (let i = 0; i < RATE_LIMIT_MAX; i++) {
+      expect(checkRateLimit(store, "1.2.3.4", t0 + i * 1000)).toBe(true);
+    }
+  });
+
+  it("blocks once the window is full", () => {
+    const store: RateStore = new Map();
+    for (let i = 0; i < RATE_LIMIT_MAX; i++) checkRateLimit(store, "1.2.3.4", t0 + i);
+    expect(checkRateLimit(store, "1.2.3.4", t0 + RATE_LIMIT_MAX)).toBe(false);
+  });
+
+  it("lets them back in once the window rolls past", () => {
+    const store: RateStore = new Map();
+    for (let i = 0; i < RATE_LIMIT_MAX; i++) checkRateLimit(store, "1.2.3.4", t0 + i);
+    expect(checkRateLimit(store, "1.2.3.4", t0 + RATE_LIMIT_WINDOW_MS + 1)).toBe(true);
+  });
+
+  it("keeps one sender's flood from blocking everyone else", () => {
+    const store: RateStore = new Map();
+    for (let i = 0; i < RATE_LIMIT_MAX + 3; i++) checkRateLimit(store, "flooder", t0 + i);
+    expect(checkRateLimit(store, "someone-else", t0 + 10)).toBe(true);
+  });
+
+  it("prunes every key, not just the one being checked", () => {
+    // Otherwise the map grows one entry per IP ever seen, for the life of the
+    // instance — a slow leak that only shows up under sustained traffic.
+    const store: RateStore = new Map();
+    for (let i = 0; i < 50; i++) checkRateLimit(store, `ip-${i}`, t0);
+    expect(store.size).toBe(50);
+    checkRateLimit(store, "someone-new", t0 + RATE_LIMIT_WINDOW_MS + 1);
+    expect(store.size).toBe(1);
+  });
+});
+
+describe("clientIp", () => {
+  const withHeaders = (h: Record<string, string>) =>
+    clientIp(new Request("https://x/api/contact", { method: "POST", headers: h }));
+
+  it("prefers the proxy's real-ip header", () => {
+    expect(withHeaders({ "x-real-ip": "9.9.9.9", "x-forwarded-for": "1.1.1.1" })).toBe("9.9.9.9");
+  });
+
+  it("takes the first hop of a forwarded-for chain", () => {
+    expect(withHeaders({ "x-forwarded-for": "1.1.1.1, 2.2.2.2, 3.3.3.3" })).toBe("1.1.1.1");
+  });
+
+  it("degrades to a constant rather than throwing", () => {
+    // Every header-less caller then shares one bucket, which is the safe
+    // direction: stricter, never a crash.
+    expect(withHeaders({})).toBe("unknown");
   });
 });
 

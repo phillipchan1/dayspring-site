@@ -316,6 +316,64 @@ async function sendViaGithub(m: ContactMessage, token: string, repo: string): Pr
   }
 }
 
+// ---------------------------------------------------------------------------
+// Rate limiting
+// ---------------------------------------------------------------------------
+
+/**
+ * A small per-instance sliding window, keyed by IP.
+ *
+ * Deliberately modest about what this is: serverless instances are ephemeral
+ * and there are many of them, so a determined attacker spreading across
+ * instances gets around it. It exists to blunt the common case — one script
+ * hammering the endpoint, which tends to land on a warm instance — at zero
+ * infrastructure cost. Turnstile is the real defence; this is the floor
+ * underneath it.
+ *
+ * The limit is generous enough that a person could never hit it: someone
+ * sending a follow-up because they forgot a detail must not be turned away.
+ */
+export const RATE_LIMIT_MAX = 5;
+export const RATE_LIMIT_WINDOW_MS = 60_000;
+
+export type RateStore = Map<string, number[]>;
+
+const rateStore: RateStore = new Map();
+
+export function checkRateLimit(
+  store: RateStore,
+  key: string,
+  now: number,
+  max = RATE_LIMIT_MAX,
+  windowMs = RATE_LIMIT_WINDOW_MS,
+): boolean {
+  const cutoff = now - windowMs;
+
+  // Prune every key, not just this one — otherwise the map grows without bound
+  // for the life of the instance, one entry per IP ever seen.
+  for (const [k, hits] of store) {
+    const live = hits.filter((t) => t > cutoff);
+    if (live.length) store.set(k, live);
+    else store.delete(k);
+  }
+
+  const hits = store.get(key) ?? [];
+  if (hits.length >= max) return false;
+
+  store.set(key, [...hits, now]);
+  return true;
+}
+
+/** Best-effort client IP from the proxy headers Vercel sets. */
+export function clientIp(req: Request): string {
+  return (
+    req.headers.get("x-real-ip") ??
+    req.headers.get("cf-connecting-ip") ??
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    "unknown"
+  );
+}
+
 /** Which delivery path is configured, if any. */
 export function deliveryMode(
   resendKey: string | null,
@@ -365,6 +423,22 @@ export async function POST(req: Request): Promise<Response> {
     return json({ ok: false, error: result.error }, 400);
   }
 
+  const ip = clientIp(req);
+
+  // Checked after validation so a malformed flood doesn't consume someone's
+  // budget, and before delivery so a flood costs us no outbound calls.
+  if (!checkRateLimit(rateStore, ip, Date.now())) {
+    console.warn(`[contact] rate limit hit for ${ip}`);
+    return json(
+      {
+        ok: false,
+        error:
+          "That's a few messages in quick succession — give it a minute and try again, or email hello@usedayspring.app.",
+      },
+      429,
+    );
+  }
+
   // Turnstile, when configured. Skipped entirely when there's no secret, so
   // local development needs no Cloudflare account.
   const turnstileSecret = env("TURNSTILE_SECRET_KEY");
@@ -375,8 +449,7 @@ export async function POST(req: Request): Promise<Response> {
     if (!token) {
       return json({ ok: false, error: "Please complete the verification check." }, 400);
     }
-    const ip = req.headers.get("cf-connecting-ip") ?? req.headers.get("x-forwarded-for");
-    if (!(await verifyTurnstile(token, turnstileSecret, ip?.split(",")[0]?.trim() ?? null))) {
+    if (!(await verifyTurnstile(token, turnstileSecret, ip === "unknown" ? null : ip))) {
       return json({ ok: false, error: "That verification check didn't pass. Try again?" }, 400);
     }
   }
