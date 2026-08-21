@@ -32,6 +32,20 @@ export const downloads = {
   },
 } as const;
 
+// Production web app. Unauthenticated visitors land on SignIn; first sign-in
+// grants the 14-day reverse trial with no card (phillipchan1/dayspring App.tsx).
+// Origin confirmed from that repo (`DEFAULT_API_BASE`, repo homepage) and the
+// live host. Do not use dayspring.app (no DNS) or dayspringapp.com (someone
+// else's verse app). The public marketing site is usedayspring.app.
+export const webApp = {
+  href: "https://dayspring-eosin.vercel.app",
+} as const;
+
+export const trialCta = {
+  label: "Start the 14-day trial",
+  href: webApp.href,
+} as const;
+
 // primary nav links (text collapses on mobile; pills stay)
 export const navLinks = [
   { label: "Why we built it", href: "/why" },
@@ -60,7 +74,7 @@ export const pricingTiers = [
     note: "14-day free trial · about $5.33 / month",
     desc:
       "The full product — the editor, every slash command, the Lamp, the Ascent across every horizon, and the Altar. The longer you write, the more the map fills in.",
-    cta: { label: "Download for macOS", href: downloads.macos.href, style: "solid" },
+    cta: { label: trialCta.label, href: trialCta.href, style: "solid" },
     featured: true,
     badge: "Most chosen",
   },
@@ -71,7 +85,7 @@ export const pricingTiers = [
     note: "14-day free trial · cancel anytime",
     desc:
       "Same everything, billed month to month. A gentle way to try it before you commit to the long walk.",
-    cta: { label: "Download for macOS", href: downloads.macos.href, style: "line" },
+    cta: { label: trialCta.label, href: trialCta.href, style: "line" },
     featured: false,
   },
 ] as const;
