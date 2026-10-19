@@ -2,9 +2,11 @@
 import Base from "../../layouts/Base.astro";
 import SectionReveal from "../../components/SectionReveal.astro";
 import DawnGlow from "../../components/DawnGlow.astro";
+import { socialLinks } from "../../content/site";
 import { value } from "../../lib/manifest";
 
 const SUPPORT_EMAIL = "hello@usedayspring.app";
+const instagram = socialLinks.find((link) => link.name === "Instagram");
 const trialDays = value("billing.trial-days");
 
 // Turnstile only renders when a site key is configured, so local development
@@ -108,6 +110,21 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
       <p class="direct">
         Prefer your own mail app? <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
       </p>
+      {
+        instagram && (
+          <p class="direct">
+            On Instagram:{" "}
+            <a
+              href={instagram.href}
+              target="_blank"
+              rel="noopener"
+              aria-label={instagram.ariaLabel}
+            >
+              {instagram.handle}
+            </a>
+          </p>
+        )
+      }
     </SectionReveal>
   </article>
 </Base>

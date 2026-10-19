@@ -1,6 +1,7 @@
 ---
 // Footer — closing line, a single soft CTA, and the link row.
 import SectionReveal from "./SectionReveal.astro";
+import SocialLinks from "./SocialLinks.astro";
 import { footerLinks } from "../content/site";
 
 interface Props {
@@ -41,6 +42,9 @@ const {
     <nav class="links" aria-label="Footer">
       {footerLinks.map((link) => <a href={link.href}>{link.label}</a>)}
     </nav>
+    <div class="social-wrap">
+      <SocialLinks />
+    </div>
   </SectionReveal>
 </footer>
 
@@ -89,5 +93,8 @@ const {
   }
   footer .links a:hover {
     color: var(--paper);
+  }
+  footer .social-wrap {
+    margin-top: 28px;
   }
 </style>
