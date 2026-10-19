@@ -51,6 +51,18 @@ export const footerLinks = [
   { label: "Dayspring © 2026", href: "/" },
 ] as const;
 
+// public profiles — footer icons, contact, and JSON-LD `sameAs`
+export const socialLinks = [
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/dayspringjournal/",
+    handle: "@dayspringjournal",
+    ariaLabel: "Dayspring on Instagram",
+  },
+] as const;
+
+export const sameAs = socialLinks.map((link) => link.href);
+
 // ---- pricing tiers (Annual is featured / "Most chosen") ----
 export const pricingTiers = [
   {
