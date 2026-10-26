@@ -121,5 +121,18 @@ const ogImageUrl = new URL(ogImage, site.url).href;
       <slot />
     </main>
     <Footer variant={footer} />
+
+    <script>
+      // Same loaders as phillipchan1/dayspring site/src/layouts/Base.astro
+      // (dayspring#131 PostHog pageview/pageleave, #135/#136 Google Ads).
+      // No-ops unless PUBLIC_POSTHOG_KEY / PUBLIC_GOOGLE_TAG_ID were set at
+      // `astro build` — they are inlined, not Worker runtime secrets.
+      import { initGoogleTag } from "../lib/googleAds";
+      import { initSiteAnalytics, wireCtaLinks } from "../lib/siteAnalytics";
+
+      initGoogleTag();
+      initSiteAnalytics();
+      wireCtaLinks();
+    </script>
   </body>
 </html>
