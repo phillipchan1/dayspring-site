@@ -4,9 +4,6 @@ This repo stays deployable on **Vercel** (`.vercelignore`, `api/contact.ts`,
 platform defaults). Cloudflare Workers is additive. Do not change DNS or
 promote a Worker to production from this PR.
 
-Analytics tags (PostHog, Google Ads) are not present in this tree and were
-not added or rewritten. Leave them alone if they land later.
-
 ## Build
 
 ```bash
@@ -21,7 +18,7 @@ Production deploy (after you are ready; **not** this PR):
 npm run deploy:cf      # build + wrangler deploy
 ```
 
-Wrangler serves `dist/` as static assets (`wrangler.jsonc` → `assets.directory`).
+`src/worker.ts` handles `/api/*`. Everything else is `dist/` (`assets.directory`).
 
 | Concern | Vercel today | Workers |
 | --- | --- | --- |
@@ -30,17 +27,74 @@ Wrangler serves `dist/` as static assets (`wrangler.jsonc` → `assets.directory
 | Headers | HSTS `max-age=63072000`, `Access-Control-Allow-Origin: *`, `Cache-Control: public, max-age=0, must-revalidate` | `public/_headers` (copied into `dist/`) |
 | Path redirects | none (no `vercel.json`) | `public/_redirects` (none) |
 | Apex → www | 307 at the domain | attach both hostnames; 307 apex → www (below) |
+| `POST /api/contact` | `api/contact.ts` (Vercel function) | `src/worker.ts` → same `POST()` |
 
-`/api/contact` is a Vercel serverless function. The Worker is assets-only, so
-that POST will 404 on Cloudflare until it is ported or proxied. Keep Vercel
-in front of `/api/*`, or move the handler, **before** pointing the domain at
-the Worker.
+## Worker secrets (`POST /api/contact`)
+
+Same names as Vercel / `.env.example`. `api/contact.ts` is unchanged and
+remains the Vercel rollback. The Worker reads these from bindings via
+`bindContactEnv` (not `process.env`).
+
+Set on the Worker (dashboard, or `npx wrangler secret put <NAME>`):
+
+| Name | Required | Notes |
+| --- | --- | --- |
+| `RESEND_API_KEY` | one of Resend **or** GitHub | Preferred delivery |
+| `GITHUB_TOKEN` | with `SUPPORT_REPO` | Issue fallback |
+| `SUPPORT_REPO` | with `GITHUB_TOKEN` | e.g. `phillipchan1/dayspring` |
+| `SUPPORT_LABEL` | no | Default `support` |
+| `CONTACT_TO_EMAIL` | no | Default `hello@usedayspring.app` |
+| `CONTACT_FROM_EMAIL` | no | Default `Dayspring <onboarding@resend.dev>` |
+| `CONTACT_AUTOREPLY` | no | Set `true` only after the sending domain is verified |
+| `TURNSTILE_SECRET_KEY` | no | Skipped when unset (same as Vercel) |
+
+Local: copy the values into `.dev.vars` (gitignored). Unconfigured, the
+endpoint still returns 503 and tells people to email hello@usedayspring.app.
+
+`PUBLIC_TURNSTILE_SITE_KEY` is **not** a Worker secret. It is an Astro
+`PUBLIC_` var, inlined into `/help/contact` at build time.
+
+## Analytics (PostHog + Google Ads)
+
+PRs **dayspring#131 / #135 / #136** landed on `phillipchan1/dayspring` in
+`site/` (the Vercel project is still named dayspring-site). They are **not**
+on standalone `dayspring-site` master. This repo now loads the same modules
+from `src/layouts/Base.astro`:
+
+- `initSiteAnalytics()` — `src/lib/siteAnalytics.ts` (posthog-js:
+  `$pageview`, `$pageleave`, session replay with inputs masked)
+- `initGoogleTag()` — `src/lib/googleAds.ts` (gtag.js `AW-…` snippet;
+  `dataLayer.push(arguments)`)
+
+Both are **no-ops** unless these vars are present at `astro build`
+(Astro inlines `import.meta.env.PUBLIC_*`). They are **not** Worker
+runtime secrets. Set them on the Cloudflare **build** environment (and
+keep them on the Vercel project):
+
+| Name | Role |
+| --- | --- |
+| `PUBLIC_POSTHOG_KEY` | Project API key (same value as the app’s `VITE_POSTHOG_KEY`) |
+| `PUBLIC_POSTHOG_HOST` | Optional; default `https://us.i.posthog.com` |
+| `PUBLIC_GOOGLE_TAG_ID` | `AW-XXXXXXXXX` — loads gtag.js |
+| `PUBLIC_GADS_DOWNLOAD_SEND_TO` | `AW-…/label` for Mac download conversion |
+| `PUBLIC_GADS_START_TRIAL_SEND_TO` | `AW-…/label` for `/start` (this tree has no `/start` page) |
+
+A Worker/`wrangler deploy` of `dist/` built **without** those vars will
+ship the loader functions but will not inject `phc_…` or `AW-…`. Confirm
+a production-shaped build with:
+
+```bash
+PUBLIC_POSTHOG_KEY=phc_… \
+PUBLIC_GOOGLE_TAG_ID=AW-… \
+npm run build
+# dist/_astro/* should contain us.i.posthog.com / gtag/js?id=AW-…
+```
 
 ## Domain attach (do not do this yet)
 
 1. Deploy once to a `workers.dev` / preview URL: `npm run deploy:cf`.
 2. Confirm routes on that URL (see the PR for the local `wrangler dev` list).
-3. In the Cloudflare dashboard: Worker → **Domains & Routes** → **Add**  
+3. In the Cloudflare dashboard: Worker → **Domains & Routes** → **Add**
    `www.usedayspring.app`.
 4. Add `usedayspring.app` (apex) on the same Worker.
 5. Configure apex → `https://www.usedayspring.app/:path*` as a **307** (today’s
@@ -51,9 +105,15 @@ the Worker.
 
 ## Rollback
 
-Vercel project, Git integration, and env vars are unchanged.
+Vercel project, Git integration, `api/contact.ts`, and env vars are unchanged.
 
 1. Point DNS for `usedayspring.app` and `www.usedayspring.app` back to Vercel.
 2. Do not delete `wrangler.jsonc`; leave the Worker idle.
 3. Confirm `/`, `/help/contact`, and `POST /api/contact` on Vercel.
 4. Apex should again 307 to `https://www.usedayspring.app/`.
+
+## Diff size
+
+The first commit’s +2911 lines were almost entirely `package-lock.json`
+from adding `wrangler` (the Workers CLI). The lockfile is the install
+graph, not application code.
