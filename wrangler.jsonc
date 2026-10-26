@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  // Dayspring marketing site — Cloudflare Workers static assets.
+  // Vercel remains the production origin until DNS cutover (see CUTOVER.md).
+  "name": "dayspring-site",
+  "compatibility_date": "2026-10-26",
+  // Preview URL on workers.dev; custom domain is attached later, not here.
+  "workers_dev": true,
+  "preview_urls": true,
+  "assets": {
+    // Astro `npm run build` output.
+    "directory": "./dist",
+    // Match current Vercel static serving: both `/why` and `/why/` 200.
+    // This is a multi-page Astro site, not an SPA — do not fallback to index.html.
+    "html_handling": "auto-trailing-slash",
+    // Equivalent to Vercel (no rewrite to /index.html): unknown paths 404.
+    // Serves nearest 404.html when present (Astro emits one).
+    "not_found_handling": "404-page"
+  }
+}
